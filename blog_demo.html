@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Sunghyun Park – Blog Demo</title>
+    <link rel="shortcut icon" type="image/x-icon" href="static/img/jlcrimson.png">
+    <link href="static/plugin/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="static/plugin/academicons/css/academicons.min.css" rel="stylesheet">
+    <link href="static/plugin/et-line/style.css" rel="stylesheet">
+    <link href="static/plugin/themify-icons/themify-icons.css" rel="stylesheet">
+    <link href="static/plugin/owl-carousel/css/owl.carousel.min.css" rel="stylesheet">
+    <link href="static/plugin/magnific/magnific-popup.css" rel="stylesheet">
+    <link href="static/plugin/scroll/jquery.mCustomScrollbar.min.css" rel="stylesheet">
+    <link href="static/css/style.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+
+<body data-spy="scroll" data-target="#navbar-collapse-toggle" data-offset="70" class="theme-light">
+    <div id="loading">
+        <div class="load-circle"><span class="one"></span></div>
+    </div>
+    <div class="mob-header">
+        <div class="d-flex">
+            <div class="navbar-brand">
+                <a class="logo-text" href="index.html">Sunghyun Park</a>
+            </div>
+            <button class="toggler-menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </div>
+    <header class="header-left" id="navbar-collapse-toggle">
+        <div class="scroll-bar">
+            <div class="hl-top">
+                <div class="hl-logo">
+                    <a href="#">SP</a>
+                </div>
+            </div>
+            <ul class="nav nav-menu">
+                <li><a class="nav-link" href="index.html#about"><i class="fas fa-home"></i></a></li>
+                <li><a class="nav-link" href="index.html#education"><i class="fas fa-graduation-cap"></i></a></li>
+                <li><a class="nav-link" href="index.html#publications"><i class="fas fa-file-alt"></i></a></li>
+                <li><a class="nav-link" href="index.html#experience"><i class="fas fa-briefcase"></i></a></li>
+                <li><a class="nav-link" href="index.html#awards"><i class="fas fa-trophy"></i></a></li>
+                <li><a class="nav-link active" href="#"><i class="fas fa-blog"></i></a></li>
+            </ul>
+        </div>
+    </header>
+    <main class="main-left">
+        <section id="blog" class="section">
+            <div class="container">
+                <div class="title">
+                    <h3>Blog (Demo).</h3>
+                    <p>Rendering a local Markdown post from <code>blogs/example.md</code>.</p>
+                </div>
+                <div id="blog-container" class="blog-container"></div>
+            </div>
+        </section>
+    </main>
+    <script src="static/js/jquery-3.2.1.min.js"></script>
+    <script src="static/js/jquery-migrate-3.0.0.min.js"></script>
+    <script src="static/plugin/bootstrap/js/bootstrap.min.js"></script>
+    <script src="static/plugin/scroll/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="static/plugin/owl-carousel/js/owl.carousel.min.js"></script>
+    <script src="static/plugin/particles/particles.min.js"></script>
+    <script src="static/plugin/magnific/jquery.magnific-popup.min.js"></script>
+    <script src="static/js/custom.js"></script>
+    <script>
+        // Fetch local example markdown file and render it
+        fetch('blogs/example.md')
+            .then(res => res.text())
+            .then(md => {
+                const html = marked.parse(md);
+                const article = document.createElement('article');
+                article.innerHTML = html;
+                document.getElementById('blog-container').appendChild(article);
+            })
+            .catch(err => {
+                const errorMsg = document.createElement('p');
+                errorMsg.textContent = 'Unable to load local example post.';
+                document.getElementById('blog-container').appendChild(errorMsg);
+            });
+    </script>
+</body>
+
+</html>

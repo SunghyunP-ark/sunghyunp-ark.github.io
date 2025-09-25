@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Sunghyun Park">
+    <meta name="description" content="Blog posts by Sunghyun Park">
+    <title>Sunghyun Park – Blog</title>
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="static/img/jlcrimson.png">
+    <!-- CSS dependencies -->
+    <link href="static/plugin/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="static/plugin/academicons/css/academicons.min.css" rel="stylesheet">
+    <link href="static/plugin/et-line/style.css" rel="stylesheet">
+    <link href="static/plugin/themify-icons/themify-icons.css" rel="stylesheet">
+    <link href="static/plugin/owl-carousel/css/owl.carousel.min.css" rel="stylesheet">
+    <link href="static/plugin/magnific/magnific-popup.css" rel="stylesheet">
+    <link href="static/plugin/scroll/jquery.mCustomScrollbar.min.css" rel="stylesheet">
+    <!-- Theme CSS -->
+    <link href="static/css/style.css" rel="stylesheet">
+    <!-- Markdown parser -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+
+<body data-spy="scroll" data-target="#navbar-collapse-toggle" data-offset="70" class="theme-light">
+    <!-- Page Loading -->
+    <div id="loading">
+        <div class="load-circle"><span class="one"></span></div>
+    </div>
+    <!-- Mobile header -->
+    <div class="mob-header">
+        <div class="d-flex">
+            <div class="navbar-brand">
+                <a class="logo-text" href="index.html">
+                    Sunghyun Park
+                </a>
+            </div>
+            <button class="toggler-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </div>
+    <!-- Sidebar navigation -->
+    <header class="header-left" id="navbar-collapse-toggle">
+        <div class="scroll-bar">
+            <div class="hl-top">
+                <div class="hl-logo">
+                    <a href="#">SP</a>
+                </div>
+            </div>
+            <ul class="nav nav-menu">
+                <li>
+                    <a class="nav-link" href="index.html#about" data-toggle="tooltip" title="Home">
+                        <i class="fas fa-home"></i>
+                    </a>
+                </li>
+                <li>
+                    <a class="nav-link" href="index.html#education" data-toggle="tooltip" title="Education">
+                        <i class="fas fa-graduation-cap"></i>
+                    </a>
+                </li>
+                <li>
+                    <a class="nav-link" href="index.html#publications" data-toggle="tooltip" title="Projects">
+                        <i class="fas fa-file-alt"></i>
+                    </a>
+                </li>
+                <li>
+                    <a class="nav-link" href="index.html#experience" data-toggle="tooltip" title="Experience">
+                        <i class="fas fa-briefcase"></i>
+                    </a>
+                </li>
+                <li>
+                    <a class="nav-link" href="index.html#awards" data-toggle="tooltip" title="Awards & Honors">
+                        <i class="fas fa-trophy"></i>
+                    </a>
+                </li>
+                <li>
+                    <a class="nav-link active" href="blog.html" data-toggle="tooltip" title="Blog">
+                        <i class="fas fa-blog"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </header>
+    <!-- Main content -->
+    <main class="main-left">
+        <section id="blog" class="section">
+            <div class="container">
+                <div class="title">
+                    <h3>Blog.</h3>
+                    <!-- description and navigation instructions -->
+                    <p>You can add markdown (<code>.md</code>) files to the <code>blogs</code> folder of your GitHub repository. They will automatically be listed below when the site is hosted. Click on a post title to read it. Use the buttons on a post page to return to the blog list or back to the introduction page.</p>
+                </div>
+                <!-- Category filter -->
+                <div id="blog-categories" class="mb-3"></div>
+                <!-- Blog list: dynamically populated -->
+                <div id="blog-list" class="blog-list"></div>
+                <!-- Single post view: hidden by default -->
+                <div id="blog-post" class="blog-post" style="display: none;">
+                    <div class="post-controls mb-3">
+                        <button id="back-to-list" class="btn btn-sm btn-secondary mr-2">Back to Blog</button>
+                        <a href="index.html#about" class="btn btn-sm btn-primary">Back to Introduction</a>
+                    </div>
+                    <div id="blog-post-content"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <!-- JavaScript dependencies -->
+    <script src="static/js/jquery-3.2.1.min.js"></script>
+    <script src="static/js/jquery-migrate-3.0.0.min.js"></script>
+    <script src="static/plugin/bootstrap/js/bootstrap.min.js"></script>
+    <script src="static/plugin/scroll/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="static/plugin/owl-carousel/js/owl.carousel.min.js"></script>
+    <script src="static/plugin/particles/particles.min.js"></script>
+    <script src="static/plugin/magnific/jquery.magnific-popup.min.js"></script>
+    <script src="static/js/custom.js"></script>
+    <!-- Blog script: fetch markdown files from GitHub, build a categorized list, and show individual posts -->
+    <script>
+        // Replace these variables with your GitHub username and repository name
+        const githubUsername = 'SunghyunP-ark';
+        const githubRepo = 'sunghyun_homepage';
+        const branch = 'main';
+        const blogDir = 'blogs';
+
+        // Utility: parse front matter (YAML) from a markdown string
+        function parseFrontMatter(md) {
+            const fmMatch = md.match(/^---\n([\s\S]*?)\n---\n/);
+            let front = {};
+            let content = md;
+            if (fmMatch) {
+                const frontRaw = fmMatch[1];
+                frontRaw.split(/\n/).forEach(line => {
+                    const idx = line.indexOf(':');
+                    if (idx !== -1) {
+                        const key = line.slice(0, idx).trim();
+                        let val = line.slice(idx + 1).trim();
+                        // remove wrapping quotes if any
+                        if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'"))) {
+                            val = val.slice(1, -1);
+                        }
+                        front[key] = val;
+                    }
+                });
+                content = md.slice(fmMatch[0].length);
+            }
+            return { front, content };
+        }
+
+        // Data structure to hold all posts
+        const posts = [];
+        let groups = {};
+        let currentCategory = 'All';
+        // Fetch list of files from GitHub API
+        fetch(`https://api.github.com/repos/${githubUsername}/${githubRepo}/contents/${blogDir}?ref=${branch}`)
+            .then(response => response.json())
+            .then(async files => {
+                // Filter for .md files
+                const mdFiles = files.filter(item => item.type === 'file' && item.name.endsWith('.md'));
+                // Iterate and fetch content
+                for (const file of mdFiles) {
+                    try {
+                        const res = await fetch(file.download_url);
+                        const mdContent = await res.text();
+                        const { front, content } = parseFrontMatter(mdContent);
+                        const title = front.title || file.name.replace(/\.md$/, '');
+                        const date = front.date || '';
+                        // Support single category or comma-separated list
+                        let category = front.category || front.categories || 'Uncategorized';
+                        // Take first category if list separated by comma
+                        if (category.includes(',')) {
+                            category = category.split(',')[0].trim();
+                        }
+                        // Convert markdown to HTML
+                        const htmlContent = marked.parse(content);
+                        posts.push({ title, date, category, html: htmlContent, file: file.name });
+                    } catch (err) {
+                        console.error('Error loading post', file.name, err);
+                    }
+                }
+                // Group posts by category for quick filtering
+                groups = {};
+                posts.forEach((post, index) => {
+                    if (!groups[post.category]) groups[post.category] = [];
+                    groups[post.category].push({ index, title: post.title, date: post.date });
+                });
+                // After posts loaded, build category filter and list
+                buildCategoryFilter();
+                renderBlogList();
+            })
+            .catch(error => {
+                console.error('Unable to load blog posts:', error);
+                const errorMsg = document.createElement('p');
+                errorMsg.textContent = 'Unable to load blog posts at this time.';
+                document.getElementById('blog-list').appendChild(errorMsg);
+            });
+
+        // Build category filter UI
+        function buildCategoryFilter() {
+            const catContainer = document.getElementById('blog-categories');
+            catContainer.innerHTML = '';
+            const allCategories = ['All'].concat(Object.keys(groups).sort());
+            allCategories.forEach(cat => {
+                const btn = document.createElement('button');
+                btn.className = 'btn btn-sm mr-2 mb-2' + (cat === currentCategory ? ' btn-primary' : ' btn-outline-primary');
+                btn.textContent = cat;
+                btn.dataset.category = cat;
+                btn.addEventListener('click', () => {
+                    currentCategory = cat;
+                    buildCategoryFilter();
+                    renderBlogList();
+                });
+                catContainer.appendChild(btn);
+            });
+        }
+
+        // Render blog list for current category
+        function renderBlogList() {
+            const listContainer = document.getElementById('blog-list');
+            listContainer.innerHTML = '';
+            // Determine which categories to display
+            const catsToShow = currentCategory === 'All' ? Object.keys(groups).sort() : [currentCategory];
+            catsToShow.forEach(cat => {
+                if (!groups[cat]) return;
+                const catHeader = document.createElement('h4');
+                catHeader.className = 'mt-4';
+                catHeader.textContent = cat;
+                listContainer.appendChild(catHeader);
+                const ul = document.createElement('ul');
+                ul.className = 'list-unstyled';
+                groups[cat]
+                    .sort((a, b) => (b.date || '').localeCompare(a.date || ''))
+                    .forEach(item => {
+                        const li = document.createElement('li');
+                        const link = document.createElement('a');
+                        link.href = '#';
+                        link.textContent = item.title;
+                        link.dataset.postIndex = item.index;
+                        link.addEventListener('click', function (e) {
+                            e.preventDefault();
+                            showPost(parseInt(this.dataset.postIndex));
+                        });
+                        li.appendChild(link);
+                        // Show date if provided
+                        if (item.date) {
+                            const span = document.createElement('small');
+                            span.className = 'text-muted ml-2';
+                            span.textContent = `(${item.date})`;
+                            li.appendChild(span);
+                        }
+                        ul.appendChild(li);
+                    });
+                listContainer.appendChild(ul);
+            });
+        }
+
+        // Show a single post
+        function showPost(index) {
+            const post = posts[index];
+            if (!post) return;
+            const postContainer = document.getElementById('blog-post');
+            const postContent = document.getElementById('blog-post-content');
+            postContent.innerHTML = `<h3>${post.title}</h3>` + post.html;
+            // Hide list and show post
+            document.getElementById('blog-list').style.display = 'none';
+            postContainer.style.display = '';
+            // Scroll to top of post view for readability
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Event listener for back button
+        document.addEventListener('DOMContentLoaded', function () {
+            const backBtn = document.getElementById('back-to-list');
+            backBtn.addEventListener('click', function () {
+                document.getElementById('blog-post').style.display = 'none';
+                document.getElementById('blog-list').style.display = '';
+                // Scroll to top of blog page
+                window.scrollTo({ top: document.getElementById('blog').offsetTop, behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+
+</html>
