@@ -6,3 +6,4 @@ category: ML
 
 What is the machine Learning?
 
+$\sum a + b = 3$
