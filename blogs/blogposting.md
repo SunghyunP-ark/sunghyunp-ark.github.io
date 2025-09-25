@@ -1,10 +1,8 @@
 ---
-title: Blog Posting Guide
+title: Blog Posting Guide (Markdown + Categories)
 date: 2025-09-25
-category: Homepage
+category: Guide
 ---
-
-# Blog Posting Guide (Markdown + Categories)
 
 This document explains how to write Markdown posts in the `blogs/` folder so they appear correctly in the **blog list and category buttons**.  
 The blog reads the Markdown **YAML front matter** to classify posts by `title`, `date`, and `category`/`categories`.
