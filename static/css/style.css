@@ -2103,3 +2103,63 @@ mark {
 }
 
 /*# sourceMappingURL=style.css.map */
+/*
+ * Custom project card and gallery styles added to enhance the project and gallery sections.
+ */
+
+/* Project card layout styling */
+.project-card {
+  background: #ffffff;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.project-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+/* Project image within card */
+.project-card img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+/* Wrapper for card text content */
+.project-card .project-content {
+  padding: 15px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.project-card .project-content h5 {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+.project-card .project-content p {
+  flex: 1;
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+.project-card .project-content .btn {
+  align-self: flex-start;
+}
+
+/* Gallery grid styles */
+.gallery-grid .gallery-item {
+  margin-bottom: 30px;
+}
+.gallery-grid img {
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+  transition: transform 0.2s ease;
+}
+.gallery-grid img:hover {
+  transform: scale(1.03);
+}

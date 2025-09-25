@@ -21,6 +21,8 @@
     <link href="static/css/style.css" rel="stylesheet">
     <!-- Markdown parser -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- Font Awesome Kit for icons -->
+    <script src="https://kit.fontawesome.com/912387ca83.js" crossorigin="anonymous"></script>
 </head>
 
 <body data-spy="scroll" data-target="#navbar-collapse-toggle" data-offset="70" class="theme-light">
@@ -77,6 +79,12 @@
                         <i class="fas fa-trophy"></i>
                     </a>
                 </li>
+                <!-- Add gallery link for memory gallery -->
+                <li>
+                    <a class="nav-link" href="gallery.html" data-toggle="tooltip" title="Gallery">
+                        <i class="fas fa-images"></i>
+                    </a>
+                </li>
                 <li>
                     <a class="nav-link active" href="blog.html" data-toggle="tooltip" title="Blog">
                         <i class="fas fa-blog"></i>
@@ -102,7 +110,7 @@
                 <div id="blog-post" class="blog-post" style="display: none;">
                     <div class="post-controls mb-3">
                         <button id="back-to-list" class="btn btn-sm btn-secondary mr-2">Back to Blog</button>
-                        <a href="index.html#about" class="btn btn-sm btn-primary">Back to Introduction</a>
+                        <a href="index.html#about" class="btn btn-sm btn-primary">Back to Home</a>
                     </div>
                     <div id="blog-post-content"></div>
                 </div>
@@ -122,7 +130,8 @@
     <script>
         // Replace these variables with your GitHub username and repository name
         const githubUsername = 'SunghyunP-ark';
-        const githubRepo = 'sunghyun_homepage';
+        // Use your GitHub Pages repository name (username.github.io) so posts are fetched when deployed
+        const githubRepo = 'sunghyunp-ark.github.io';
         const branch = 'main';
         const blogDir = 'blogs';
 

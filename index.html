@@ -93,6 +93,12 @@
                     </a>
                 </li>
                 <!-- Added blog menu item to navigate to the new blog page. -->
+                <!-- Add gallery page link before blog to separate sections logically -->
+                <li>
+                    <a class="nav-link" href="gallery.html" data-toggle="tooltip" title="Gallery">
+                        <i class="fas fa-images"></i>
+                    </a>
+                </li>
                 <li>
                     <a class="nav-link" href="blog.html" data-toggle="tooltip" title="Blog">
                         <i class="fas fa-blog"></i>
@@ -105,29 +111,7 @@
 
     <!-- Main Start -->
     <main class="main-left">
-        <!-- Home -->
-        <!-- <section id="home" class="home-banner">
-            <div class="hb-top-fixed d-flex">
-                <div class="hb-info">
-                    <label>99rma37@kaist.ac.kr</label>
-                </div>
-            </div>
-            <div class="container">
-                <div class="row full-screen align-items-center">
-                    <div class="col-lg-7">
-                        <div class="type-box">
-                            <h6></h6>
-                            <h1 class="font-alt">Jaewook Lee</h1>
-                            <p class="lead">Graduate AI/ML Researcher</p>
-                            <p class="desc"><i>(Website currently under construction)</i></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="hb-me" style="background-image: url(static/img/empty.jpg);"></div>
-        </section> -->
-        <!-- End Home -->
-
+    
         <!-- About us -->
         <section id="about" class="section dark-bg">
             <div class="container">
@@ -203,7 +187,7 @@
                                 <span>Feb 2025</span>
                                 <h5>Yonsei University, Seoul, South Korea</h5>
                                 <h6>Undergraduate Student in Biochemistry & Computer Science (Double Major)</h6>
-                                <p>GPA: 4.01/4.3</p>
+                                <p>GPA: 3.91/4.3</p>
                                 <p><b>Course Work (CS)</b> : Discrete Mathematics, Introduction of Computer Science, Computer Architecture, Linear Algebra, Machine Learning, Algorithm Analysis, Computer Network, Computer Vision,
                                     Operating System, Large Language Model, Capstone design, Introduction of Deep Learning, Compiler Design, Distributed Learning and Inference, Mathematics for Deep Learning, Introduction to Computing Reserach, Cloud Computing, Reinforcement Learning.</p>
                                 <p><b>Course Work (Biochem)</b> : Biochemistry, Organic chemistry, Neuroscience, Biophysical chemistry, Molecular Virology, Cell Biology, Cell Immunology, Biological Statistics.</p>
@@ -221,26 +205,43 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-12 m-15px-tb">
-                        <ul class="publication-box">
-                            <li>
-                                <h5><a href="projects/Force-Driven Mechano-Typing of B Cells - Multi-channel image analysis of cd40-cd40l interaction using autoencoder.pdf">Force-Driven Mechano-Typing of B Cells Multi Channel Iamge Analysis of CD40-CD40L Interactions using Autoencoder</a></h5>
-                                <h6><b>Sunghyun Park</b>, Yelim Jeon, Hyunkyu Choi
-                                </h6>
-                            
-                                <!-- <p><span><b>Spotlight Paper,</b> Top (144+191)/9473=3.54% of papers</span></p> -->
-                            </li>
-                            
-                            <li>
-                                <h5><a href="projects/webos.pdf">
-                                    Reducing WebOS Boot Latency through build and boot-time optimzation
-                                </a></h5>
-                                <h6><b>Sunghyun Park</b>, Jonghyun Hwang, Sungyoon Lim, Changwon Kim
-                                </h6>
-                            </li>
-                            <!--<li>
-                                <p><sup>*</sup>Equal Contribution</pca
-                            </li>-->
-                        </ul>
+                        <!-- Replace basic list with card-style project showcase -->
+                        <div class="row">
+                            <!-- Project 1: B Cell Mechanotyping -->
+                            <div class="col-md-6 m-15px-tb">
+                                <div class="project-card">
+                                    <img src="static/img/project1.png" alt="B Cell Mechanotyping">
+                                    <div class="project-content">
+                                        <h5>Force‑Driven Mechano‑Typing of B Cells - Multi-channel image analysis of CD40-CD40L interaction using autoencoder</h5>
+                                        <p>
+                                            We combined multi‑threshold molecular tension probes and three‑channel microscopy
+                                            (DIC, RICM, TIRF) with a deep autoencoder to encode single‑cell images into 32‑D
+                                            biophysical representations. This framework reveals how mechanical forces and CD40L
+                                            mutations jointly shape B‑cell morphology and adhesion.
+                                        </p>
+                                        <p class="mb-1"><small><b>Authors:</b> Sunghyun Park, Yelim Jeon, Hyunkyu Choi</small></p>
+                                        <a class="btn btn-sm btn-primary" href="projects/Force-Driven Mechano-Typing of B Cells - Multi-channel image analysis of cd40-cd40l interaction using autoencoder.pdf" target="_blank">Read poster</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Project 2: WebOS boot optimization -->
+                            <div class="col-md-6 m-15px-tb">
+                                <div class="project-card">
+                                    <img src="static/img/project2.png" alt="WebOS Boot Optimization">
+                                    <div class="project-content">
+                                        <h5>Reducing WebOS Boot Latency</h5>
+                                        <p>
+                                            Using ftrace and kernel instrumentation, we captured boot‑time function traces to
+                                            identify hotspots and page faults. By reorganizing code sections via a custom linker
+                                            script and optimizing the ELF binary layout, we reduced kernel page faults and
+                                            improved boot times for embedded devices.
+                                        </p>
+                                        <p class="mb-1"><small><b>Authors:</b> Sunghyun Park, Jonghyun Hwang, Sungyoon Lim, Changwon Kim</small></p>
+                                        <a class="btn btn-sm btn-primary" href="projects/webos.pdf" target="_blank">Read Poster</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -333,9 +334,6 @@
                                         <em>Deep-Learning approach to make connection with AI and Biology</em>,
                                         which involves multi-cell image analysis using compuatational methods.
                                     </p>
-                                    <!-- <p>
-                                        I am also interested in theoretically analyzing commonly used network structures like convolutional networks.
-                                    </p> -->
                                 </div>
                             </div>
                         </div>
@@ -357,9 +355,6 @@
                                         3D morphable face models and neural renderers, specifically aiming to achieve better-performing expression/identity
                                         swapping between different images or frames.
                                     </p>
-                                    <!-- <p>
-                                        Before my internship, I participated in the MLILAB weekly group paper study for 6 months <em>(Dec '20 - Jun '21)</em>.
-                                    </p> -->
                                 </div>
                             </div>
                         </div>
@@ -415,60 +410,6 @@
         </section>
         <!-- End Awards -->
 
-        
-        <!-- Blog -->
-        <!-- <section id="blog" class="section">
-            <div class="container">
-                <div class="title">
-                    <h3>Blog.</h3>
-                </div>
-                <div class="row">
-                    <div class="col-md-4 m-15px-tb">
-                        <div class="blog-grid-inmain">
-                            <div class="blog-img">
-                                <a href="blog-post-3.html" target="_blank">
-                                    <img src="static/img/img1.jpg" title="" alt="">
-                                </a>
-                            </div>
-                            <div class="blog-info">
-                                <div class="meta">15/APR/2022</div>
-                                <h6><a href="blog-post-3.html" target="_blank">Title of Blog Article 3</a></h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 m-15px-tb">
-                        <div class="blog-grid-inmain">
-                            <div class="blog-img">
-                                <a href="blog-post-2.html" target="_blank">
-                                    <img src="static/img/img2.jpg" title="" alt="">
-                                </a>
-                            </div>
-                            <div class="blog-info">
-                                <div class="meta">14/APR/2022</div>
-                                <h6><a href="blog-post-2.html" target="_blank">Title of Blog Article 2</a></h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 m-15px-tb">
-                        <div class="blog-grid-inmain">
-                            <div class="blog-img">
-                                <a href="blog-post-1.html">
-                                    <img src="static/img/img3.jpg" title="" alt="">
-                                </a>
-                            </div>
-                            <div class="blog-info">
-                                <div class="meta">13/APR/2022</div>
-                                <h6><a href="blog-post-1.html">Title of Blog Article 1</a></h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 read-more-blog text-center">
-                        <a class="px-btn px-btn-white" href="blog.html">Blog</a>
-                    </div>
-                </div>
-            </div>
-        </section> -->
-        <!-- End Blog -->
 
         <!-- Contact us -->
         <!-- <section id="contact" class="section dark-bg"> -->
@@ -495,7 +436,7 @@
                                 </li>
                                 <!-- <li class="media">
                                     <i class="ti-map"></i>
-                                    <span class="media-body">85 Hoegi-ro, Dongdaemun-gu, Seoul, South Korea</span>
+                                    <span class="media-body">adress, Seoul, South Korea</span>
                                 </li> -->
                             </ul>
                         </div>
@@ -516,12 +457,12 @@
                         <a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
                         <a href="#"><i class="fab fa-twitter"></i></a>
                         <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
-                        <a href="https://www.linkedin.com/in/jaewook-lee-62777a210/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="https://github.com/id8198" target="_blank"><i class="fab fa-github"></i></a>
+                        <a href="https://www.linkedin.com/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://github.com/" target="_blank"><i class="fab fa-github"></i></a>
                     </div> -->
                 </div>
                 <!-- <div class="col-md-6 m-10px-tb text-center text-md-right">
-                    <p>© 2020, <i>Original template from ib-themes</i></p>
+                    <p>© 2025, <i>Original template from ib-themes</i></p>
                 </div> -->
             </div>
         </div>
