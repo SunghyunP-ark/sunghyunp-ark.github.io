@@ -1,7 +1,7 @@
 ---
 title: Blog Update Principles
 date: 2025-09-25
-category: [Guide/Update , Notes]
+category: Guide/Update
 ---
 기존 블로그는 페이지가 하나의 긴 목록으로만 구성되어 있고, 카테고리도 단순히 버튼으로만 되어 있었다. 또한, post에서 수학식이나 이미지가 있을 때 제대로 표현되지 않는 문제가 있었다. 
 
