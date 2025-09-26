@@ -2328,3 +2328,231 @@ mark {
 }
 
 /*# sourceMappingURL=style.css.map */
+
+/* ----------------------------------------------------------------------
+* Timeline page styles
+* These rules apply when the <body> has class "timeline-page".
+* They are appended here to keep timeline-specific styling in the main CSS
+* instead of embedding it in timeline.html.
+*---------------------------------------------------------------------*/
+.timeline-page .wrap {
+  max-width: 1100px;
+  margin: 32px auto;
+  padding: 0 16px;
+}
+.timeline-page .header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 16px;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.timeline-page .title h1 {
+  margin: 0;
+  font-size: 24px;
+  letter-spacing: 0.3px;
+  color: #2a3142;
+}
+.timeline-page .notice {
+  color: #8a90a6;
+  margin: 8px 0 20px;
+}
+.timeline-page .controls {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.timeline-page .control {
+  background: #f5f6fb;
+  border: 1px solid #e1e6f2;
+  border-radius: 10px;
+  padding: 8px 10px;
+  color: #2a3142;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+}
+.timeline-page .control select,
+.timeline-page .control input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #2a3142;
+  min-width: 140px;
+}
+.timeline-page .control input::placeholder {
+  color: #a0a7bd;
+}
+.timeline-page .control:focus-within {
+  box-shadow: 0 0 0 3px rgba(52, 91, 150, 0.35);
+}
+.timeline-page .reset-btn {
+  background: transparent;
+  border: 1px solid #b9c4db;
+  color: #5f6fa3;
+  border-radius: 10px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+.timeline-page .reset-btn:hover {
+  border-color: #3a54a4;
+  color: #345b96;
+}
+.timeline-page .timeline {
+  position: relative;
+  padding: 30px 0;
+}
+.timeline-page .timeline::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, #d5daeb, rgba(211, 218, 240, 0.2));
+  transform: translateX(-50%);
+}
+.timeline-page .year-chip {
+  position: relative;
+  width: fit-content;
+  margin: 24px auto;
+  background: #eff2fb;
+  border: 1px solid #d5daeb;
+  color: #345b96;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+.timeline-page .item {
+  position: relative;
+  width: 50%;
+  padding: 14px 24px;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.5s ease, transform 0.5s ease, filter 0.2s ease;
+}
+.timeline-page .item.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+.timeline-page .item.left {
+  left: 0;
+  text-align: right;
+}
+.timeline-page .item.right {
+  left: 50%;
+}
+.timeline-page .node {
+  position: absolute;
+  top: 18px;
+  left: calc(100% + 12px);
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #345b96;
+  box-shadow: 0 0 0 5px rgba(52, 91, 150, 0.15), 0 0 0 12px rgba(52, 91, 150, 0.07);
+}
+.timeline-page .item.right .node {
+  left: -26px;
+}
+.timeline-page .card {
+  background: #ffffff;
+  border: 1px solid #e6e6f0;
+  border-radius: 14px;
+  padding: 14px 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+.timeline-page .thumb {
+  flex: 0 0 64px;
+  height: 64px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid #d5daeb;
+  background: #f5f6fb;
+}
+.timeline-page .thumb > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.timeline-page .meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #6f82d8;
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+.timeline-page .cat {
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid #d5daeb;
+  color: #345b96;
+  background: #eef2fc;
+}
+.timeline-page .date {
+  color: #8fa2ff;
+}
+.timeline-page .card h3 {
+  margin: 4px 0 6px;
+  font-size: 16px;
+  color: #2a3142;
+}
+.timeline-page .desc {
+  color: #606060;
+  opacity: 0.9;
+}
+.timeline-page .links {
+  margin-top: 8px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.timeline-page .btn {
+  border: 1px solid #d5daeb;
+  color: #ffffff;
+  background: #345b96;
+  text-decoration: none;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 13px;
+}
+.timeline-page .btn:hover {
+  border-color: #345b96;
+  background: #2e4d80;
+}
+.timeline-page .item:focus-within .card {
+  outline: 2px solid rgba(52, 91, 150, 0.35);
+}
+.timeline-page .timeline:hover .item {
+  filter: saturate(0.8) opacity(0.9);
+}
+.timeline-page .timeline:hover .item:hover {
+  filter: none;
+}
+@media (max-width: 900px) {
+  .timeline-page .timeline::before {
+    left: 12px;
+    transform: none;
+  }
+  .timeline-page .item {
+    width: 100%;
+    padding-left: 36px;
+    padding-right: 0;
+    text-align: left !important;
+  }
+  .timeline-page .item.right {
+    left: 0;
+  }
+  .timeline-page .node {
+    left: -2px;
+  }
+}
