@@ -181,7 +181,12 @@
 
         // Utility: parse front matter (YAML) from a markdown string
         function parseFrontMatter(md) {
-            const fmMatch = md.match(/^---\n([\s\S]*?)\n---\n/);
+            // Normalize CRLF to LF to support different line endings from GitHub
+            // Normalize CRLF to LF to support different line endings from GitHub
+            md = md.replace(/\r\n/g, '\n');
+            // Front matter starts with '---' on its own line and ends with another '---' line.
+            // Allow optional whitespace after the dashes for robustness.
+            const fmMatch = md.match(/^---\s*\n([\s\S]*?)\n---\s*\n/);
             let front = {};
             let content = md;
             if (fmMatch) {
@@ -263,10 +268,49 @@
                             const words = text.trim().split(/\s+/).slice(0, 40);
                             excerpt = words.join(' ');
                         }
+                        // Build category paths from front matter (category/categories) or folder path.
+                        let categoryPaths = [];
+                        // Extract categories from front matter.
+                        if (front.categories !== undefined) {
+                            // front.categories can be a YAML array or plain string.
+                            let cats = front.categories.trim();
+                            let arr;
+                            if (cats.startsWith('[') && cats.endsWith(']')) {
+                                // remove brackets and split by comma
+                                cats = cats.slice(1, -1);
+                                arr = cats.split(',').map(s => s.trim());
+                            } else {
+                                arr = [cats];
+                            }
+                            arr.forEach(cat => {
+                                // split nested categories by /
+                                const segs = cat.split('/')
+                                    .map(s => s.trim())
+                                    .filter(Boolean);
+                                if (segs.length > 0) {
+                                    categoryPaths.push(segs);
+                                }
+                            });
+                        } else if (front.category !== undefined) {
+                            // single category
+                            const cat = front.category.trim();
+                            const segs = cat.split('/')
+                                .map(s => s.trim())
+                                .filter(Boolean);
+                            if (segs.length > 0) {
+                                categoryPaths.push(segs);
+                            }
+                        }
+                        // If no categories specified, fall back to folder path (parentPath)
+                        if (categoryPaths.length === 0) {
+                            categoryPaths.push(parentPath);
+                        }
                         const postIndex = posts.length;
-                        posts.push({ title, date, html, excerpt, path: parentPath });
-                        // Add to category tree
-                        addPostToTree(parentPath, postIndex);
+                        posts.push({ title, date, html, excerpt, categoryPaths });
+                        // Add the post to the category tree for each category path
+                        categoryPaths.forEach(cp => {
+                            addPostToTree(cp, postIndex);
+                        });
                     } catch (err) {
                         console.error('Error loading post', item.name, err);
                     }
@@ -391,13 +435,26 @@
             // Determine which posts to show
             const indices = [];
             posts.forEach((post, idx) => {
-                // Category filter: if currentCategoryPath empty, include all
-                const matchCategory = currentCategoryPath.length === 0 ||
-                    currentCategoryPath.every((seg, i) => post.path[i] === seg);
+                // Category filter: include post if currentCategoryPath empty or any of its category paths matches the selection prefix
+                let matchCategory;
+                if (currentCategoryPath.length === 0) {
+                    matchCategory = true;
+                } else if (Array.isArray(post.categoryPaths)) {
+                    matchCategory = post.categoryPaths.some(cp => {
+                        // cp may be shorter than currentCategoryPath; ensure prefix matches
+                        if (!Array.isArray(cp)) return false;
+                        return currentCategoryPath.every((seg, i) => cp[i] === seg);
+                    });
+                } else {
+                    matchCategory = false;
+                }
                 // Search filter
-                const matchSearch = !searchQuery || (post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                    (post.date && post.date.toLowerCase().includes(searchQuery.toLowerCase())) ||
-                    (post.excerpt && post.excerpt.toLowerCase().includes(searchQuery.toLowerCase())));
+                const lcQuery = searchQuery.toLowerCase();
+                const matchSearch = !searchQuery || (
+                    (post.title && post.title.toLowerCase().includes(lcQuery)) ||
+                    (post.date && post.date.toLowerCase().includes(lcQuery)) ||
+                    (post.excerpt && post.excerpt.toLowerCase().includes(lcQuery))
+                );
                 if (matchCategory && matchSearch) {
                     indices.push(idx);
                 }

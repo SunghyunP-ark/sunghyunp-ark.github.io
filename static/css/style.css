@@ -2275,6 +2275,15 @@ mark {
   padding-left: 1rem;
   display: none;
 }
+
+/* Ensure the top-level category list under the #category-tree is visible by default.
+   The category tree builder inserts the first <ul> directly inside the container,
+   which is not wrapped in a .cat-item element. Without this rule, the root
+   category list would be hidden because .cat-sublist defaults to display: none.
+ */
+.cat-tree > .cat-sublist {
+  display: block;
+}
 .cat-tree .cat-item.open > .cat-sublist {
   display: block;
 }
