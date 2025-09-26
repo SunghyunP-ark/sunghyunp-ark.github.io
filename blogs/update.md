@@ -25,7 +25,7 @@ category: Guide
 	•	AI > Optimization
 	•	Notes
 
-두 개의 노드 경로가 만들어집니다. 각 노드는 { name, path, children, posts } 구조로 저장하고, 해당 경로에 속하는 게시글의 인덱스를 posts 배열에 추가합니다. 이후 renderCategoryTree() 함수가 이 트리를 순회하며 사이드바를 생성합니다. 루트에는 All posts 항목을 두어 전체 글을 볼 수 있도록 하고, 첫 번째 <ul>은 CSS에서 display: block으로 보이게 하여 최상위 카테고리가 숨겨지는 문제를 해결했습니다.
+두 개의 노드 경로가 만들어집니다. 각 노드는 { name, path, children, posts } 구조로 저장하고, 해당 경로에 속하는 게시글의 인덱스를 posts 배열에 추가합니다. 이후 renderCategoryTree() 함수가 이 트리를 순회하며 사이드바를 생성합니다. 루트에는 All posts 항목을 두어 전체 글을 볼 수 있도록 하고, 첫 번째 ur은 CSS에서 display: block으로 보이게 하여 최상위 카테고리가 숨겨지는 문제를 해결했습니다.
 
 카테고리 이름 옆에는 countPostsInNode()를 통해 계산한 글 개수를 뱃지로 표시하고, 클릭하면 currentCategoryPath를 갱신하여 글 목록을 필터링합니다. 트리 항목은 open 클래스를 이용해 자식 노드를 열고 닫을 수 있습니다.
 
