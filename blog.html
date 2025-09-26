@@ -111,16 +111,25 @@
                 <div class="title">
                     <h3>Blog.</h3>
                     <!-- description and navigation instructions -->
-                    <p>Add markdown (<code>.md</code>) files to the <code>blogs</code> folder of GitHub repository. They will automatically be listed below when the site is hosted. Click on a post title to read it. Use the buttons on a post page to return to the blog list or back to the introduction page.</p>
+                    <p>Add markdown (<code>.md</code>) files to the <code>blogs</code> folder of GitHub repository. They will automatically be listed below when the site is hosted. Click on a post title to read it. Use the buttons on a post page to return to the blog list or back to the homepage.</p>
                 </div>
-                <!-- Category filter -->
-                <div id="blog-categories" class="mb-3"></div>
+                <!-- Category filter navigation -->
+                <div id="blog-category-container" class="mb-4">
+                    <!-- Heading clarifying purpose of the filter -->
+                    <p class="small text-muted mb-1">Filter posts by topic:</p>
+                    <!--
+                        Use a scrollable nav-pills list for categories.  On small screens the list scrolls horizontally,
+                        and on larger screens it wraps to new lines.  Each pill shows the category name and the
+                        number of posts available.  The pills are styled via CSS in static/css/style.css.
+                    -->
+                    <ul id="blog-categories" class="nav nav-pills flex-nowrap overflow-auto"></ul>
+                </div>
                 <!-- Blog list: dynamically populated -->
                 <div id="blog-list" class="blog-list"></div>
                 <!-- Single post view: hidden by default -->
                 <div id="blog-post" class="blog-post" style="display: none;">
                     <div class="post-controls mb-3">
-                        <button id="back-to-list" class="btn btn-sm btn-secondary mr-2">Back to list</button>
+                        <button id="back-to-list" class="btn btn-sm btn-secondary mr-2">Back to List</button>
                         <a href="index.html#about" class="btn btn-sm btn-primary">Back to Home</a>
                     </div>
                     <div id="blog-post-content"></div>
@@ -139,6 +148,28 @@
     <script src="static/js/custom.js"></script>
     <!-- Blog script: fetch markdown files from GitHub, build a categorized list, and show individual posts -->
     <script>
+        /**
+         * Customize the Markdown renderer to support relative images from the repository.
+         *
+         * When a post includes an image with a relative path (e.g. `static/img/myphoto.jpg`), this function
+         * converts that path into a raw GitHub URL.  This ensures images stored in your repository are displayed
+         * correctly when the blog is hosted via GitHub Pages.  The rendered `<img>` tags also use the
+         * `img-fluid` and `my-3` Bootstrap classes for responsive sizing and spacing.
+         */
+        (function() {
+            const renderer = new marked.Renderer();
+            renderer.image = function (href, title, text) {
+                let src = href;
+                // For local or relative paths (no protocol and not a data URI), build a GitHub raw URL
+                if (href && !href.match(/^https?:\/\//) && !href.startsWith('data:')) {
+                    const cleanHref = href.replace(/^\/+/, '');
+                    src = `https://raw.githubusercontent.com/${githubUsername}/${githubRepo}/${branch}/${cleanHref}`;
+                }
+                const titleAttr = title ? ` title="${title}"` : '';
+                return `<img src="${src}" alt="${text}"${titleAttr} class="img-fluid my-3">`;
+            };
+            marked.setOptions({ renderer });
+        })();
         // Replace these variables with your GitHub username and repository name
         const githubUsername = 'SunghyunP-ark';
         const githubRepo = 'sunghyunp-ark.github.io';
@@ -217,43 +248,58 @@
                 document.getElementById('blog-list').appendChild(errorMsg);
             });
 
-        // Build category filter UI
+        // Build category filter UI as a nav-pills list with counts
         function buildCategoryFilter() {
             const catContainer = document.getElementById('blog-categories');
             catContainer.innerHTML = '';
-            const allCategories = ['All'].concat(Object.keys(groups).sort());
+            // Prepare a list of categories including an "All" option
+            const categories = Object.keys(groups).sort();
+            const allCategories = ['All', ...categories];
             allCategories.forEach(cat => {
-                const btn = document.createElement('button');
-                btn.className = 'btn btn-sm mr-2 mb-2' + (cat === currentCategory ? ' btn-primary' : ' btn-outline-primary');
-                btn.textContent = cat;
-                btn.dataset.category = cat;
-                btn.addEventListener('click', () => {
+                // Each category becomes a nav item <li> with a link <a>
+                const li = document.createElement('li');
+                li.className = 'nav-item mr-2 mb-2';
+                const a = document.createElement('a');
+                // Use nav-link and active classes per Bootstrap. Active if this category is selected.
+                a.className = 'nav-link' + (cat === currentCategory ? ' active' : '');
+                a.href = '#';
+                a.dataset.category = cat;
+                // Compute the number of posts in this category; 'All' uses total post count.
+                const count = cat === 'All' ? posts.length : (groups[cat] ? groups[cat].length : 0);
+                a.innerHTML = `${cat} <span class="badge badge-light ml-1">${count}</span>`;
+                a.addEventListener('click', function (e) {
+                    e.preventDefault();
                     currentCategory = cat;
                     buildCategoryFilter();
                     renderBlogList();
                 });
-                catContainer.appendChild(btn);
+                li.appendChild(a);
+                catContainer.appendChild(li);
             });
         }
 
-        // Render blog list for current category
+        // Render blog list for the current category. Display posts grouped by category, using Bootstrap list-group styles.
         function renderBlogList() {
             const listContainer = document.getElementById('blog-list');
             listContainer.innerHTML = '';
-            // Determine which categories to display
+            // Determine which categories to display: either all or just the selected one
             const catsToShow = currentCategory === 'All' ? Object.keys(groups).sort() : [currentCategory];
             catsToShow.forEach(cat => {
                 if (!groups[cat]) return;
+                // Category heading
                 const catHeader = document.createElement('h4');
                 catHeader.className = 'mt-4';
                 catHeader.textContent = cat;
                 listContainer.appendChild(catHeader);
+                // Use list-group for better spacing and styling
                 const ul = document.createElement('ul');
-                ul.className = 'list-unstyled';
-                groups[cat]
-                    .sort((a, b) => (b.date || '').localeCompare(a.date || ''))
+                ul.className = 'list-group list-group-flush';
+                // Sort posts by date descending
+                groups[cat].sort((a, b) => (b.date || '').localeCompare(a.date || ''))
                     .forEach(item => {
                         const li = document.createElement('li');
+                        li.className = 'list-group-item';
+                        // Title link
                         const link = document.createElement('a');
                         link.href = '#';
                         link.textContent = item.title;
@@ -263,12 +309,12 @@
                             showPost(parseInt(this.dataset.postIndex));
                         });
                         li.appendChild(link);
-                        // Show date if provided
+                        // Append date if provided
                         if (item.date) {
-                            const span = document.createElement('small');
-                            span.className = 'text-muted ml-2';
-                            span.textContent = `(${item.date})`;
-                            li.appendChild(span);
+                            const dateSpan = document.createElement('span');
+                            dateSpan.className = 'text-muted ml-2';
+                            dateSpan.textContent = `(${item.date})`;
+                            li.appendChild(dateSpan);
                         }
                         ul.appendChild(li);
                     });
