@@ -2113,8 +2113,9 @@ mark {
  */
 
 /* Project card container */
+
 .project-card {
-  background: #f7f7fa;
+  background: #F7F7FF;
   border: 1px solid #e6e6f0;
   border-radius: 8px;
   overflow: hidden;
@@ -2126,7 +2127,7 @@ mark {
 }
 /* Light theme override */
 .theme-light .project-card {
-  background: #fff;
+  background: #f7f7ff;
   border-color: #e0e0e0;
   box-shadow: 0 2px 6px rgba(0,0,0,0.05);
 }
@@ -2149,6 +2150,7 @@ mark {
 }
 /* Project title */
 .project-card .project-content h5 {
+  color: #0b0b13;
   font-size: 18px;
   margin-bottom: 8px;
 }
@@ -2161,8 +2163,11 @@ mark {
 }
 /* Button positioning */
 .project-card .project-content .btn {
+  background-color: #335B96;
+  border: 0;
   align-self: flex-start;
 }
+
 
 /* Gallery grid styles */
 .gallery-grid .gallery-item {
@@ -2297,7 +2302,7 @@ mark {
   transition: transform 0.2s, box-shadow 0.2s;
 }
 .theme-light .post-card {
-  background-color: #f8f9fa;
+  background-color: #f7f7ff;
   border-color: #e2e2e2;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 }
@@ -2309,6 +2314,7 @@ mark {
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
 }
 .post-card h5 {
+  color: #0b0b13;
   font-size: 1.1rem;
   font-weight: 500;
 }
@@ -2316,6 +2322,8 @@ mark {
   margin-bottom: 0.5rem;
 }
 .post-card .btn {
+  background-color: #335B96;
+  border: 0;
   font-size: 0.85rem;
 }
 
