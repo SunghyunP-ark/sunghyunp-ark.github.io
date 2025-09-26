@@ -110,29 +110,32 @@
             <div class="container">
                 <div class="title">
                     <h3>Blog.</h3>
-                    <!-- description and navigation instructions -->
-                    <p>Add markdown (<code>.md</code>) files to the <code>blogs</code> folder of GitHub repository. They will automatically be listed below when the site is hosted. Click on a post title to read it. Use the buttons on a post page to return to the blog list or back to the homepage.</p>
+                    <p>All posts in this blog are stored as Markdown (<code>.md</code>) files in the <code>blogs</code> folder of your GitHub repository.  Posts can be organised into folders to create nested categories, and each post may contain images or equations.  Use the category tree and search box to find posts and click a card to read the full article.</p>
                 </div>
-                <!-- Category filter navigation -->
-                <div id="blog-category-container" class="mb-4">
-                    <!-- Heading clarifying purpose of the filter -->
-                    <p class="small text-muted mb-1">Filter posts by topic:</p>
-                    <!--
-                        Use a scrollable nav-pills list for categories.  On small screens the list scrolls horizontally,
-                        and on larger screens it wraps to new lines.  Each pill shows the category name and the
-                        number of posts available.  The pills are styled via CSS in static/css/style.css.
-                    -->
-                    <ul id="blog-categories" class="nav nav-pills flex-nowrap overflow-auto"></ul>
-                </div>
-                <!-- Blog list: dynamically populated -->
-                <div id="blog-list" class="blog-list"></div>
-                <!-- Single post view: hidden by default -->
-                <div id="blog-post" class="blog-post" style="display: none;">
-                    <div class="post-controls mb-3">
-                        <button id="back-to-list" class="btn btn-sm btn-secondary mr-2">Back to List</button>
-                        <a href="index.html#about" class="btn btn-sm btn-primary">Back to Home</a>
+                <!-- Blog layout: sidebar for categories and main area for feed -->
+                <div class="row">
+                    <!-- Sidebar: collapsible category tree -->
+                    <aside class="col-12 col-md-4 col-lg-3 mb-4" id="blog-sidebar">
+                        <h5 class="mb-3">Browse by category</h5>
+                        <nav id="category-tree" class="cat-tree"></nav>
+                    </aside>
+                    <!-- Main content: search + feed + post -->
+                    <div class="col-12 col-md-8 col-lg-9" id="blog-main">
+                        <!-- Search bar -->
+                        <div class="form-group">
+                            <input type="search" id="blog-search" class="form-control" placeholder="Search posts...">
+                        </div>
+                        <!-- Feed: cards of posts -->
+                        <div id="blog-feed" class="row"></div>
+                        <!-- Single post view: hidden by default -->
+                        <div id="blog-post" style="display: none;">
+                            <div class="post-controls mb-3">
+                                <button id="back-to-list" class="btn btn-sm btn-secondary mr-2">Back to Blog</button>
+                                <a href="index.html#about" class="btn btn-sm btn-primary">Back to Introduction</a>
+                            </div>
+                            <div id="blog-post-content"></div>
+                        </div>
                     </div>
-                    <div id="blog-post-content"></div>
                 </div>
             </div>
         </section>
@@ -200,136 +203,268 @@
             return { front, content };
         }
 
-        // Data structure to hold all posts
+        /* ========================================================================
+         * Blog script: recursively load posts from GitHub, build a collapsible category tree,
+         * provide search and filtering, and display posts as cards.  Posts are fetched from
+         * the `blogs` directory of your repository.  Each post's file path determines its
+         * category hierarchy (e.g. `blogs/topic1/page1.md` -> category "topic1").  Front
+         * matter may override the title or date fields.  MathJax is used to typeset
+         * inline/block LaTeX expressions, and the marked renderer above customises images.
+         * =======================================================================*/
         const posts = [];
-        let groups = {};
-        let currentCategory = 'All';
-        // Fetch list of files from GitHub API
-        fetch(`https://api.github.com/repos/${githubUsername}/${githubRepo}/contents/${blogDir}?ref=${branch}`)
-            .then(response => response.json())
-            .then(async files => {
-                // Filter for .md files
-                const mdFiles = files.filter(item => item.type === 'file' && item.name.endsWith('.md'));
-                // Iterate and fetch content
-                for (const file of mdFiles) {
+        const categoryTree = { name: 'All', path: [], children: {}, posts: [] };
+        let currentCategoryPath = []; // an array of path segments representing the selected category
+        let searchQuery = '';
+
+        /**
+         * Recursively fetch markdown files from the GitHub API.  Populates the `posts`
+         * array and the `categoryTree` based on file paths.
+         * @param {string} dir Relative path inside the blogs directory ('' for root)
+         * @param {string[]} parentPath The accumulated path segments for categories
+         */
+        async function fetchPostsFromDir(dir = '', parentPath = []) {
+            const basePath = blogDir + (dir ? '/' + dir : '');
+            const url = `https://api.github.com/repos/${githubUsername}/${githubRepo}/contents/${basePath}?ref=${branch}`;
+            let files;
+            try {
+                const resp = await fetch(url);
+                files = await resp.json();
+            } catch (err) {
+                console.error('Error listing directory', basePath, err);
+                return;
+            }
+            // Sort directories first then files for deterministic ordering
+            files.sort((a, b) => {
+                if (a.type === b.type) {
+                    return a.name.localeCompare(b.name);
+                }
+                return a.type === 'dir' ? -1 : 1;
+            });
+            for (const item of files) {
+                if (item.type === 'dir') {
+                    // Recurse into subdirectories, updating the path segments
+                    const newPath = [...parentPath, item.name];
+                    await fetchPostsFromDir(dir ? `${dir}/${item.name}` : item.name, newPath);
+                } else if (item.type === 'file' && item.name.endsWith('.md')) {
                     try {
-                        const res = await fetch(file.download_url);
+                        const res = await fetch(item.download_url);
                         const mdContent = await res.text();
                         const { front, content } = parseFrontMatter(mdContent);
-                        const title = front.title || file.name.replace(/\.md$/, '');
+                        const title = front.title || item.name.replace(/\.md$/, '');
                         const date = front.date || '';
-                        // Support single category or comma-separated list
-                        let category = front.category || front.categories || 'Uncategorized';
-                        // Take first category if list separated by comma
-                        if (category.includes(',')) {
-                            category = category.split(',')[0].trim();
-                        }
                         // Convert markdown to HTML
-                        const htmlContent = marked.parse(content);
-                        posts.push({ title, date, category, html: htmlContent, file: file.name });
+                        const html = marked.parse(content);
+                        // Compute plain text excerpt (first 40 words)
+                        let excerpt = '';
+                        {
+                            const tmp = document.createElement('div');
+                            tmp.innerHTML = html;
+                            const text = tmp.textContent || tmp.innerText || '';
+                            const words = text.trim().split(/\s+/).slice(0, 40);
+                            excerpt = words.join(' ');
+                        }
+                        const postIndex = posts.length;
+                        posts.push({ title, date, html, excerpt, path: parentPath });
+                        // Add to category tree
+                        addPostToTree(parentPath, postIndex);
                     } catch (err) {
-                        console.error('Error loading post', file.name, err);
+                        console.error('Error loading post', item.name, err);
                     }
                 }
-                // Group posts by category for quick filtering
-                groups = {};
-                posts.forEach((post, index) => {
-                    if (!groups[post.category]) groups[post.category] = [];
-                    groups[post.category].push({ index, title: post.title, date: post.date });
-                });
-                // After posts loaded, build category filter and list
-                buildCategoryFilter();
-                renderBlogList();
-            })
-            .catch(error => {
-                console.error('Unable to load blog posts:', error);
-                const errorMsg = document.createElement('p');
-                errorMsg.textContent = 'Unable to load blog posts at this time.';
-                document.getElementById('blog-list').appendChild(errorMsg);
-            });
-
-        // Build category filter UI as a nav-pills list with counts
-        function buildCategoryFilter() {
-            const catContainer = document.getElementById('blog-categories');
-            catContainer.innerHTML = '';
-            // Prepare a list of categories including an "All" option
-            const categories = Object.keys(groups).sort();
-            const allCategories = ['All', ...categories];
-            allCategories.forEach(cat => {
-                // Each category becomes a nav item <li> with a link <a>
-                const li = document.createElement('li');
-                li.className = 'nav-item mr-2 mb-2';
-                const a = document.createElement('a');
-                // Use nav-link and active classes per Bootstrap. Active if this category is selected.
-                a.className = 'nav-link' + (cat === currentCategory ? ' active' : '');
-                a.href = '#';
-                a.dataset.category = cat;
-                // Compute the number of posts in this category; 'All' uses total post count.
-                const count = cat === 'All' ? posts.length : (groups[cat] ? groups[cat].length : 0);
-                a.innerHTML = `${cat} <span class="badge badge-light ml-1">${count}</span>`;
-                a.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    currentCategory = cat;
-                    buildCategoryFilter();
-                    renderBlogList();
-                });
-                li.appendChild(a);
-                catContainer.appendChild(li);
-            });
+            }
         }
 
-        // Render blog list for the current category. Display posts grouped by category, using Bootstrap list-group styles.
-        function renderBlogList() {
-            const listContainer = document.getElementById('blog-list');
-            listContainer.innerHTML = '';
-            // Determine which categories to display: either all or just the selected one
-            const catsToShow = currentCategory === 'All' ? Object.keys(groups).sort() : [currentCategory];
-            catsToShow.forEach(cat => {
-                if (!groups[cat]) return;
-                // Category heading
-                const catHeader = document.createElement('h4');
-                catHeader.className = 'mt-4';
-                catHeader.textContent = cat;
-                listContainer.appendChild(catHeader);
-                // Use list-group for better spacing and styling
+        /**
+         * Add a post index to the category tree at the given path.
+         * @param {string[]} pathSegments 
+         * @param {number} postIndex 
+         */
+        function addPostToTree(pathSegments, postIndex) {
+            let node = categoryTree;
+            for (const seg of pathSegments) {
+                if (!node.children[seg]) {
+                    node.children[seg] = { name: seg, path: [...(node.path || []), seg], children: {}, posts: [] };
+                }
+                node = node.children[seg];
+            }
+            node.posts.push(postIndex);
+        }
+
+        /**
+         * Count total posts under a node, including in descendant categories.
+         * @param {object} node 
+         * @returns {number}
+         */
+        function countPostsInNode(node) {
+            let count = node.posts ? node.posts.length : 0;
+            for (const key in node.children) {
+                count += countPostsInNode(node.children[key]);
+            }
+            return count;
+        }
+
+        /**
+         * Render the category tree into the sidebar.  Each node displays its name and
+         * the number of posts under it.  Clicking a node selects it and toggles its open state.
+         */
+        function renderCategoryTree() {
+            const container = document.getElementById('category-tree');
+            container.innerHTML = '';
+            // Create "All posts" root entry
+            const rootLi = document.createElement('div');
+            rootLi.className = 'cat-item root';
+            const rootLabel = document.createElement('div');
+            rootLabel.className = 'cat-label d-flex justify-content-between align-items-center';
+            rootLabel.innerHTML = `<span>All posts</span><span class="badge badge-light ml-2">${posts.length}</span>`;
+            rootLabel.addEventListener('click', () => {
+                currentCategoryPath = [];
+                renderBlogFeed();
+                updateActiveCategory();
+            });
+            rootLi.appendChild(rootLabel);
+            container.appendChild(rootLi);
+            // Recursive helper to build nested categories
+            function build(node, parentEl) {
                 const ul = document.createElement('ul');
-                ul.className = 'list-group list-group-flush';
-                // Sort posts by date descending
-                groups[cat].sort((a, b) => (b.date || '').localeCompare(a.date || ''))
-                    .forEach(item => {
-                        const li = document.createElement('li');
-                        li.className = 'list-group-item';
-                        // Title link
-                        const link = document.createElement('a');
-                        link.href = '#';
-                        link.textContent = item.title;
-                        link.dataset.postIndex = item.index;
-                        link.addEventListener('click', function (e) {
-                            e.preventDefault();
-                            showPost(parseInt(this.dataset.postIndex));
-                        });
-                        li.appendChild(link);
-                        // Append date if provided
-                        if (item.date) {
-                            const dateSpan = document.createElement('span');
-                            dateSpan.className = 'text-muted ml-2';
-                            dateSpan.textContent = `(${item.date})`;
-                            li.appendChild(dateSpan);
-                        }
-                        ul.appendChild(li);
+                ul.className = 'cat-sublist';
+                for (const name of Object.keys(node.children).sort()) {
+                    const child = node.children[name];
+                    const li = document.createElement('li');
+                    li.className = 'cat-item';
+                    li.dataset.path = JSON.stringify(child.path);
+                    const label = document.createElement('div');
+                    label.className = 'cat-label d-flex justify-content-between align-items-center';
+                    label.innerHTML = `<span>${name}</span><span class="badge badge-light ml-2">${countPostsInNode(child)}</span>`;
+                    label.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        li.classList.toggle('open');
+                        currentCategoryPath = child.path;
+                        renderBlogFeed();
+                        updateActiveCategory();
                     });
-                listContainer.appendChild(ul);
+                    li.appendChild(label);
+                    if (Object.keys(child.children).length > 0) {
+                        build(child, li);
+                    }
+                    ul.appendChild(li);
+                }
+                parentEl.appendChild(ul);
+            }
+            build(categoryTree, container);
+            updateActiveCategory();
+        }
+
+        /**
+         * Highlight the currently selected category by adding 'active' class.
+         */
+        function updateActiveCategory() {
+            const items = document.querySelectorAll('#category-tree .cat-item');
+            items.forEach(item => {
+                item.classList.remove('active');
+                const path = JSON.parse(item.dataset.path || '[]');
+                if (path.length === currentCategoryPath.length &&
+                    path.every((seg, idx) => seg === currentCategoryPath[idx])) {
+                    item.classList.add('active');
+                    // ensure parent nodes are open
+                    let parent = item.parentElement;
+                    while (parent && parent.id !== 'category-tree') {
+                        if (parent.classList.contains('cat-item')) {
+                            parent.classList.add('open');
+                        }
+                        parent = parent.parentElement;
+                    }
+                }
             });
         }
 
-        // Show a single post
+        /**
+         * Render the blog feed based on current category and search query.
+         */
+        function renderBlogFeed() {
+            const feed = document.getElementById('blog-feed');
+            const postView = document.getElementById('blog-post');
+            // If post is open, hide feed (it will be shown after back)
+            if (postView.style.display !== 'none') {
+                return;
+            }
+            feed.innerHTML = '';
+            // Determine which posts to show
+            const indices = [];
+            posts.forEach((post, idx) => {
+                // Category filter: if currentCategoryPath empty, include all
+                const matchCategory = currentCategoryPath.length === 0 ||
+                    currentCategoryPath.every((seg, i) => post.path[i] === seg);
+                // Search filter
+                const matchSearch = !searchQuery || (post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    (post.date && post.date.toLowerCase().includes(searchQuery.toLowerCase())) ||
+                    (post.excerpt && post.excerpt.toLowerCase().includes(searchQuery.toLowerCase())));
+                if (matchCategory && matchSearch) {
+                    indices.push(idx);
+                }
+            });
+            // Sort posts by date descending (empty dates go last)
+            indices.sort((a, b) => {
+                const da = posts[a].date || '';
+                const db = posts[b].date || '';
+                return db.localeCompare(da);
+            });
+            // Create cards
+            if (indices.length === 0) {
+                const noMsg = document.createElement('p');
+                noMsg.className = 'text-muted';
+                noMsg.textContent = 'No posts found.';
+                feed.appendChild(noMsg);
+                return;
+            }
+            indices.forEach(idx => {
+                const post = posts[idx];
+                const col = document.createElement('div');
+                col.className = 'col-12 col-md-6 col-lg-4 mb-4';
+                const card = document.createElement('div');
+                card.className = 'post-card h-100 d-flex flex-column';
+                // header: title
+                const header = document.createElement('h5');
+                header.className = 'mb-1';
+                header.textContent = post.title;
+                card.appendChild(header);
+                // date
+                if (post.date) {
+                    const dateEl = document.createElement('div');
+                    dateEl.className = 'text-muted small mb-2';
+                    dateEl.textContent = post.date;
+                    card.appendChild(dateEl);
+                }
+                // excerpt
+                const excerptEl = document.createElement('p');
+                excerptEl.className = 'flex-grow-1';
+                excerptEl.textContent = post.excerpt + '...';
+                card.appendChild(excerptEl);
+                // button
+                const btn = document.createElement('button');
+                btn.className = 'btn btn-sm btn-primary align-self-start mb-2';
+                btn.textContent = 'Read more';
+                btn.addEventListener('click', () => {
+                    showPost(idx);
+                });
+                card.appendChild(btn);
+                col.appendChild(card);
+                feed.appendChild(col);
+            });
+        }
+
+        /**
+         * Show a single post.  Hides the feed and displays post content.
+         * @param {number} index 
+         */
         function showPost(index) {
             const post = posts[index];
             if (!post) return;
+            const feed = document.getElementById('blog-feed');
+            feed.style.display = 'none';
             const postContainer = document.getElementById('blog-post');
             const postContent = document.getElementById('blog-post-content');
             postContent.innerHTML = `<h3>${post.title}</h3>` + post.html;
-            // After injecting content, run MathJax to typeset any math expressions if the library is loaded.
+            // Typeset math if MathJax available
             if (window.MathJax && typeof window.MathJax.typeset === 'function') {
                 try {
                     if (typeof MathJax.typesetPromise === 'function') {
@@ -341,21 +476,28 @@
                     console.warn('MathJax typesetting error:', e);
                 }
             }
-            // Hide list and show post
-            document.getElementById('blog-list').style.display = 'none';
             postContainer.style.display = '';
-            // Scroll to top of post view for readability
+            // scroll to top
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Event listener for back button
-        document.addEventListener('DOMContentLoaded', function () {
-            const backBtn = document.getElementById('back-to-list');
-            backBtn.addEventListener('click', function () {
+        // Back to list button
+        document.addEventListener('DOMContentLoaded', () => {
+            const back = document.getElementById('back-to-list');
+            back.addEventListener('click', () => {
                 document.getElementById('blog-post').style.display = 'none';
-                document.getElementById('blog-list').style.display = '';
-                // Scroll to top of blog page
+                document.getElementById('blog-feed').style.display = '';
                 window.scrollTo({ top: document.getElementById('blog').offsetTop, behavior: 'smooth' });
+            });
+            // Fetch posts and initialise UI
+            fetchPostsFromDir('', []).then(() => {
+                renderCategoryTree();
+                renderBlogFeed();
+            });
+            // Search input handler
+            document.getElementById('blog-search').addEventListener('input', (e) => {
+                searchQuery = e.target.value.trim();
+                renderBlogFeed();
             });
         });
     </script>

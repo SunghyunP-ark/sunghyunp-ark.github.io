@@ -2223,4 +2223,91 @@ mark {
   color: #fff;
 }
 
+/* ------------------------------------------------------------------
+ * Blog Tree & Feed (custom additions)
+ * These styles support the collapsible category tree and card layout in the blog page.
+ * ------------------------------------------------------------------*/
+.cat-tree {
+  font-size: 14px;
+  line-height: 1.5;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.cat-tree .cat-item {
+  list-style: none;
+  margin: 0;
+  padding-left: 0.75rem;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+}
+.theme-light .cat-tree .cat-item {
+  border-left-color: rgba(0, 0, 0, 0.1);
+}
+.cat-tree .cat-item.root {
+  border-left: none;
+  padding-left: 0;
+}
+.cat-tree .cat-label {
+  cursor: pointer;
+  padding: 0.25rem 0.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+.cat-tree .cat-label:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+.theme-light .cat-tree .cat-label:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+.cat-tree .cat-item.active > .cat-label {
+  font-weight: 500;
+  background-color: rgba(52, 91, 150, 0.2);
+}
+.theme-light .cat-tree .cat-item.active > .cat-label {
+  background-color: rgba(52, 91, 150, 0.1);
+}
+.cat-tree .cat-sublist {
+  list-style: none;
+  margin: 0;
+  padding-left: 1rem;
+  display: none;
+}
+.cat-tree .cat-item.open > .cat-sublist {
+  display: block;
+}
+/* Blog feed cards */
+.post-card {
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.theme-light .post-card {
+  background-color: #f8f9fa;
+  border-color: #e2e2e2;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+.post-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+.theme-light .post-card:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+.post-card h5 {
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+.post-card p {
+  margin-bottom: 0.5rem;
+}
+.post-card .btn {
+  font-size: 0.85rem;
+}
+
 /*# sourceMappingURL=style.css.map */
