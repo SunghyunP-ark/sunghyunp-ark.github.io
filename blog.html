@@ -7,9 +7,7 @@
     <meta name="author" content="Sunghyun Park">
     <meta name="description" content="Blog posts by Sunghyun Park">
     <title>Sunghyun Park – Blog</title>
-    <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="static/img/jlcrimson.png">
-    <!-- CSS dependencies -->
     <link href="static/plugin/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="static/plugin/academicons/css/academicons.min.css" rel="stylesheet">
     <link href="static/plugin/et-line/style.css" rel="stylesheet">
@@ -17,15 +15,11 @@
     <link href="static/plugin/owl-carousel/css/owl.carousel.min.css" rel="stylesheet">
     <link href="static/plugin/magnific/magnific-popup.css" rel="stylesheet">
     <link href="static/plugin/scroll/jquery.mCustomScrollbar.min.css" rel="stylesheet">
-    <!-- Theme CSS -->
     <link href="static/css/style.css" rel="stylesheet">
-    <!-- Markdown parser -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
-    <!-- Font Awesome Kit for icons -->
     <script src="https://kit.fontawesome.com/912387ca83.js" crossorigin="anonymous"></script>
 
-    <!-- MathJax for rendering LaTeX expressions. Configuration must come before loading. -->
     <script>
         // Configure inline math delimiters and ignore tags that should not be processed.
         window.MathJax = {
@@ -33,16 +27,13 @@
             options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] }
         };
     </script>
-    <!-- Load MathJax asynchronously to avoid blocking page rendering -->
     <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 
 <body data-spy="scroll" data-target="#navbar-collapse-toggle" data-offset="70" class="theme-light">
-    <!-- Page Loading -->
     <div id="loading">
         <div class="load-circle"><span class="one"></span></div>
     </div>
-    <!-- Mobile header -->
     <div class="mob-header">
         <div class="d-flex">
             <div class="navbar-brand">
@@ -57,7 +48,6 @@
             </button>
         </div>
     </div>
-    <!-- Sidebar navigation -->
     <header class="header-left" id="navbar-collapse-toggle">
         <div class="scroll-bar">
             <div class="hl-top">
@@ -104,7 +94,6 @@
             </ul>
         </div>
     </header>
-    <!-- Main content -->
     <main class="main-left">
         <section id="blog" class="section">
             <div class="container">
@@ -112,35 +101,44 @@
                     <h3>Posts.</h3>
                     <p>All posts in this blog are stored as Markdown (<code>.md</code>) files in the <code>blogs</code> folder of GitHub repository.  Use the category tree and search box to find posts and click a card to read the full article.</p>
                 </div>
-                <!-- Blog layout: sidebar for categories and main area for feed -->
                 <div class="row">
-                    <!-- Sidebar: collapsible category tree -->
                     <aside class="col-12 col-md-4 col-lg-3 mb-4" id="blog-sidebar">
                         <h5 class="mb-3">Browse by category</h5>
                         <nav id="category-tree" class="cat-tree"></nav>
                     </aside>
-                    <!-- Main content: search + feed + post -->
                     <div class="col-12 col-md-8 col-lg-9" id="blog-main">
-                        <!-- Search bar -->
                         <div class="form-group">
                             <input type="search" id="blog-search" class="form-control" placeholder="Search posts...">
                         </div>
-                        <!-- Feed: cards of posts -->
-                        <div id="blog-feed" class="row"></div>
-                        <!-- Single post view: hidden by default -->
+                        <div id="blog-feed"></div>
+                        
                         <div id="blog-post" style="display: none;">
-                            <div class="post-controls mb-3">
-                                <button id="back-to-list" class="btn btn-sm btn-secondary mr-2">Back to List</button>
-                                <!--<a href="index.html#about" class="btn btn-sm btn-primary">Back to Home</a>-->
+                            <div class="post-header">
+                                <div class="post-meta">
+                                    <img id="post-author-avatar" src="static/img/jlcrimson.png" class="author-avatar" alt="Author">
+                                    <span id="post-author-name"></span>
+                                    <span class="meta-separator">·</span>
+                                    <time id="post-date"></time>
+                                </div>
+    
+                                <h1 id="post-title" class="post-title"></h1>
+    
+                                <div id="post-tags" class="post-tags"></div>
+
+                                <p id="post-summary" class="post-summary"></p>
+                                
+                                <div class="post-controls mb-4">
+                                    <button id="back-to-list" class="btn btn-sm btn-outline-secondary">← Back to List</button>
+                                </div>
                             </div>
-                            <div id="blog-post-content"></div>
+                            <hr class="post-divider">
+                            <div id="blog-post-content" class="post-content"></div>
                         </div>
-                    </div>
+                        </div>
                 </div>
             </div>
         </section>
     </main>
-    <!-- JavaScript dependencies -->
     <script src="static/js/jquery-3.2.1.min.js"></script>
     <script src="static/js/jquery-migrate-3.0.0.min.js"></script>
     <script src="static/plugin/bootstrap/js/bootstrap.min.js"></script>
@@ -149,21 +147,15 @@
     <script src="static/plugin/particles/particles.min.js"></script>
     <script src="static/plugin/magnific/jquery.magnific-popup.min.js"></script>
     <script src="static/js/custom.js"></script>
-    <!-- Blog script: fetch markdown files from GitHub, build a categorized list, and show individual posts -->
+    
     <script>
         /**
          * Customize the Markdown renderer to support relative images from the repository.
-         *
-         * When a post includes an image with a relative path (e.g. `static/img/myphoto.jpg`), this function
-         * converts that path into a raw GitHub URL.  This ensures images stored in your repository are displayed
-         * correctly when the blog is hosted via GitHub Pages.  The rendered `<img>` tags also use the
-         * `img-fluid` and `my-3` Bootstrap classes for responsive sizing and spacing.
          */
         (function() {
             const renderer = new marked.Renderer();
             renderer.image = function (href, title, text) {
                 let src = href;
-                // For local or relative paths (no protocol and not a data URI), build a GitHub raw URL
                 if (href && !href.match(/^https?:\/\//) && !href.startsWith('data:')) {
                     const cleanHref = href.replace(/^\/+/, '');
                     src = `https://raw.githubusercontent.com/${githubUsername}/${githubRepo}/${branch}/${cleanHref}`;
@@ -173,19 +165,14 @@
             };
             marked.setOptions({ renderer });
         })();
-        // Replace these variables with your GitHub username and repository name
+        
         const githubUsername = 'SunghyunP-ark';
         const githubRepo = 'sunghyunp-ark.github.io';
         const branch = 'main';
         const blogDir = 'blogs';
 
-        // Utility: parse front matter (YAML) from a markdown string
         function parseFrontMatter(md) {
-            // Normalize CRLF to LF to support different line endings from GitHub
-            // Normalize CRLF to LF to support different line endings from GitHub
             md = md.replace(/\r\n/g, '\n');
-            // Front matter starts with '---' on its own line and ends with another '---' line.
-            // Allow optional whitespace after the dashes for robustness.
             const fmMatch = md.match(/^---\s*\n([\s\S]*?)\n---\s*\n/);
             let front = {};
             let content = md;
@@ -196,7 +183,6 @@
                     if (idx !== -1) {
                         const key = line.slice(0, idx).trim();
                         let val = line.slice(idx + 1).trim();
-                        // remove wrapping quotes if any
                         if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'"))) {
                             val = val.slice(1, -1);
                         }
@@ -208,25 +194,11 @@
             return { front, content };
         }
 
-        /* ========================================================================
-         * Blog script: recursively load posts from GitHub, build a collapsible category tree,
-         * provide search and filtering, and display posts as cards.  Posts are fetched from
-         * the `blogs` directory of your repository.  Each post's file path determines its
-         * category hierarchy (e.g. `blogs/topic1/page1.md` -> category "topic1").  Front
-         * matter may override the title or date fields.  MathJax is used to typeset
-         * inline/block LaTeX expressions, and the marked renderer above customises images.
-         * =======================================================================*/
         const posts = [];
         const categoryTree = { name: 'All', path: [], children: {}, posts: [] };
-        let currentCategoryPath = []; // an array of path segments representing the selected category
+        let currentCategoryPath = [];
         let searchQuery = '';
 
-        /**
-         * Recursively fetch markdown files from the GitHub API.  Populates the `posts`
-         * array and the `categoryTree` based on file paths.
-         * @param {string} dir Relative path inside the blogs directory ('' for root)
-         * @param {string[]} parentPath The accumulated path segments for categories
-         */
         async function fetchPostsFromDir(dir = '', parentPath = []) {
             const basePath = blogDir + (dir ? '/' + dir : '');
             const url = `https://api.github.com/repos/${githubUsername}/${githubRepo}/contents/${basePath}?ref=${branch}`;
@@ -238,16 +210,12 @@
                 console.error('Error listing directory', basePath, err);
                 return;
             }
-            // Sort directories first then files for deterministic ordering
             files.sort((a, b) => {
-                if (a.type === b.type) {
-                    return a.name.localeCompare(b.name);
-                }
+                if (a.type === b.type) return a.name.localeCompare(b.name);
                 return a.type === 'dir' ? -1 : 1;
             });
             for (const item of files) {
                 if (item.type === 'dir') {
-                    // Recurse into subdirectories, updating the path segments
                     const newPath = [...parentPath, item.name];
                     await fetchPostsFromDir(dir ? `${dir}/${item.name}` : item.name, newPath);
                 } else if (item.type === 'file' && item.name.endsWith('.md')) {
@@ -257,60 +225,37 @@
                         const { front, content } = parseFrontMatter(mdContent);
                         const title = front.title || item.name.replace(/\.md$/, '');
                         const date = front.date || '';
-                        // Convert markdown to HTML
+                        const author = front.author || 'Sunghyun Park'; // Read author, with a default value
+                        const image = front.image || 'placeholder_light_gray_block.png';
                         const html = marked.parse(content);
-                        // Compute plain text excerpt (first 40 words)
-                        let excerpt = '';
-                        {
+                        let excerpt = front.summary || ''; // Use summary from frontmatter if available
+                        if (!excerpt) {
                             const tmp = document.createElement('div');
                             tmp.innerHTML = html;
                             const text = tmp.textContent || tmp.innerText || '';
                             const words = text.trim().split(/\s+/).slice(0, 40);
                             excerpt = words.join(' ');
                         }
-                        // Build category paths from front matter (category/categories) or folder path.
+
                         let categoryPaths = [];
-                        // Extract categories from front matter.
                         if (front.categories !== undefined) {
-                            // front.categories can be a YAML array or plain string.
                             let cats = front.categories.trim();
-                            let arr;
-                            if (cats.startsWith('[') && cats.endsWith(']')) {
-                                // remove brackets and split by comma
-                                cats = cats.slice(1, -1);
-                                arr = cats.split(',').map(s => s.trim());
-                            } else {
-                                arr = [cats];
-                            }
+                            let arr = cats.startsWith('[') && cats.endsWith(']') ? JSON.parse(cats) : [cats];
                             arr.forEach(cat => {
-                                // split nested categories by /
-                                const segs = cat.split('/')
-                                    .map(s => s.trim())
-                                    .filter(Boolean);
-                                if (segs.length > 0) {
-                                    categoryPaths.push(segs);
-                                }
+                                const segs = cat.split('/').map(s => s.trim()).filter(Boolean);
+                                if (segs.length > 0) categoryPaths.push(segs);
                             });
                         } else if (front.category !== undefined) {
-                            // single category
                             const cat = front.category.trim();
-                            const segs = cat.split('/')
-                                .map(s => s.trim())
-                                .filter(Boolean);
-                            if (segs.length > 0) {
-                                categoryPaths.push(segs);
-                            }
+                            const segs = cat.split('/').map(s => s.trim()).filter(Boolean);
+                            if (segs.length > 0) categoryPaths.push(segs);
                         }
-                        // If no categories specified, fall back to folder path (parentPath)
                         if (categoryPaths.length === 0) {
                             categoryPaths.push(parentPath);
                         }
                         const postIndex = posts.length;
-                        posts.push({ title, date, html, excerpt, categoryPaths });
-                        // Add the post to the category tree for each category path
-                        categoryPaths.forEach(cp => {
-                            addPostToTree(cp, postIndex);
-                        });
+                        posts.push({ title, date, author, image, html, excerpt, categoryPaths });
+                        categoryPaths.forEach(cp => addPostToTree(cp, postIndex));
                     } catch (err) {
                         console.error('Error loading post', item.name, err);
                     }
@@ -318,11 +263,6 @@
             }
         }
 
-        /**
-         * Add a post index to the category tree at the given path.
-         * @param {string[]} pathSegments 
-         * @param {number} postIndex 
-         */
         function addPostToTree(pathSegments, postIndex) {
             let node = categoryTree;
             for (const seg of pathSegments) {
@@ -334,11 +274,6 @@
             node.posts.push(postIndex);
         }
 
-        /**
-         * Count total posts under a node, including in descendant categories.
-         * @param {object} node 
-         * @returns {number}
-         */
         function countPostsInNode(node) {
             let count = node.posts ? node.posts.length : 0;
             for (const key in node.children) {
@@ -347,14 +282,9 @@
             return count;
         }
 
-        /**
-         * Render the category tree into the sidebar.  Each node displays its name and
-         * the number of posts under it.  Clicking a node selects it and toggles its open state.
-         */
         function renderCategoryTree() {
             const container = document.getElementById('category-tree');
             container.innerHTML = '';
-            // Create "All posts" root entry
             const rootLi = document.createElement('div');
             rootLi.className = 'cat-item root';
             const rootLabel = document.createElement('div');
@@ -367,7 +297,7 @@
             });
             rootLi.appendChild(rootLabel);
             container.appendChild(rootLi);
-            // Recursive helper to build nested categories
+
             function build(node, parentEl) {
                 const ul = document.createElement('ul');
                 ul.className = 'cat-sublist';
@@ -398,18 +328,13 @@
             updateActiveCategory();
         }
 
-        /**
-         * Highlight the currently selected category by adding 'active' class.
-         */
         function updateActiveCategory() {
             const items = document.querySelectorAll('#category-tree .cat-item');
             items.forEach(item => {
                 item.classList.remove('active');
                 const path = JSON.parse(item.dataset.path || '[]');
-                if (path.length === currentCategoryPath.length &&
-                    path.every((seg, idx) => seg === currentCategoryPath[idx])) {
+                if (path.length === currentCategoryPath.length && path.every((seg, idx) => seg === currentCategoryPath[idx])) {
                     item.classList.add('active');
-                    // ensure parent nodes are open
                     let parent = item.parentElement;
                     while (parent && parent.id !== 'category-tree') {
                         if (parent.classList.contains('cat-item')) {
@@ -421,137 +346,156 @@
             });
         }
 
-        /**
-         * Render the blog feed based on current category and search query.
-         */
         function renderBlogFeed() {
             const feed = document.getElementById('blog-feed');
             const postView = document.getElementById('blog-post');
-            // If post is open, hide feed (it will be shown after back)
-            if (postView.style.display !== 'none') {
-                return;
-            }
+            
+            if (postView.style.display !== 'none') { return; }
+            
+            feed.className = 'blog-grid';
             feed.innerHTML = '';
-            // Determine which posts to show
+
             const indices = [];
             posts.forEach((post, idx) => {
-                // Category filter: include post if currentCategoryPath empty or any of its category paths matches the selection prefix
-                let matchCategory;
-                if (currentCategoryPath.length === 0) {
-                    matchCategory = true;
-                } else if (Array.isArray(post.categoryPaths)) {
-                    matchCategory = post.categoryPaths.some(cp => {
-                        // cp may be shorter than currentCategoryPath; ensure prefix matches
-                        if (!Array.isArray(cp)) return false;
-                        return currentCategoryPath.every((seg, i) => cp[i] === seg);
-                    });
-                } else {
-                    matchCategory = false;
-                }
-                // Search filter
+                let matchCategory = currentCategoryPath.length === 0 || 
+                    (Array.isArray(post.categoryPaths) && post.categoryPaths.some(cp => 
+                        Array.isArray(cp) && currentCategoryPath.every((seg, i) => cp[i] === seg)
+                    ));
+
                 const lcQuery = searchQuery.toLowerCase();
                 const matchSearch = !searchQuery || (
                     (post.title && post.title.toLowerCase().includes(lcQuery)) ||
                     (post.date && post.date.toLowerCase().includes(lcQuery)) ||
                     (post.excerpt && post.excerpt.toLowerCase().includes(lcQuery))
                 );
+
                 if (matchCategory && matchSearch) {
                     indices.push(idx);
                 }
             });
-            // Sort posts by date descending (empty dates go last)
-            indices.sort((a, b) => {
-                const da = posts[a].date || '';
-                const db = posts[b].date || '';
-                return db.localeCompare(da);
-            });
-            // Create cards
+
+            indices.sort((a, b) => (posts[b].date || '').localeCompare(posts[a].date || ''));
+
             if (indices.length === 0) {
-                const noMsg = document.createElement('p');
-                noMsg.className = 'text-muted';
-                noMsg.textContent = 'No posts found.';
-                feed.appendChild(noMsg);
+                feed.innerHTML = '<p class="text-muted">No posts found.</p>';
                 return;
             }
+
             indices.forEach(idx => {
                 const post = posts[idx];
-                const col = document.createElement('div');
-                col.className = 'col-12 col-md-6 col-lg-4 mb-4';
-                const card = document.createElement('div');
-                card.className = 'post-card h-100 d-flex flex-column';
-                // header: title
-                const header = document.createElement('h5');
-                header.className = 'mb-1';
-                header.textContent = post.title;
-                card.appendChild(header);
-                // date
-                if (post.date) {
-                    const dateEl = document.createElement('div');
-                    dateEl.className = 'text-muted small mb-2';
-                    dateEl.textContent = post.date;
-                    card.appendChild(dateEl);
+                const card = document.createElement('article');
+                card.className = 'card';
+                card.onclick = () => showPost(idx);
+
+                const tagsContainer = document.createElement('div');
+                tagsContainer.className = 'card-tags';
+                if (post.categoryPaths && post.categoryPaths.length > 0 && post.categoryPaths[0].length > 0) {
+                    post.categoryPaths[0].forEach(catName => {
+                        const tag = document.createElement('span');
+                        tag.className = 'tag';
+                        tag.textContent = catName.toUpperCase();
+                        tagsContainer.appendChild(tag);
+                    });
                 }
-                // excerpt
-                const excerptEl = document.createElement('p');
-                excerptEl.className = 'flex-grow-1';
-                excerptEl.textContent = post.excerpt + '...';
-                card.appendChild(excerptEl);
-                // button
-                const btn = document.createElement('button');
-                btn.className = 'btn btn-sm btn-primary align-self-start mb-2';
-                btn.textContent = 'Read more';
-                btn.addEventListener('click', () => {
-                    showPost(idx);
-                });
-                card.appendChild(btn);
-                col.appendChild(card);
-                feed.appendChild(col);
+                card.appendChild(tagsContainer);
+
+                const imageLink = document.createElement('div');
+                imageLink.className = 'card-image-link';
+                const image = document.createElement('img');
+                image.src = post.image;
+                image.alt = post.title;
+                image.className = 'card-image';
+                image.onerror = function() {
+                    this.style.backgroundColor = '#e2e8f0';
+                    this.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+                };
+                imageLink.appendChild(image);
+                card.appendChild(imageLink);
+
+                const cardBody = document.createElement('div');
+                cardBody.className = 'card-body';
+
+                if (post.date) {
+                    const dateEl = document.createElement('time');
+                    dateEl.className = 'card-date';
+                    dateEl.textContent = post.date;
+                    cardBody.appendChild(dateEl);
+                }
+
+                const titleEl = document.createElement('h3');
+                titleEl.className = 'card-title';
+                titleEl.textContent = post.title;
+                cardBody.appendChild(titleEl);
+
+                const summaryEl = document.createElement('p');
+                summaryEl.className = 'card-summary';
+                summaryEl.textContent = post.excerpt ? `${post.excerpt.replace(/\.+$/, '')}...` : '';
+                cardBody.appendChild(summaryEl);
+                
+                card.appendChild(cardBody);
+                feed.appendChild(card);
             });
         }
-
-        /**
-         * Show a single post.  Hides the feed and displays post content.
-         * @param {number} index 
-         */
+        
+        // ========= START: REWRITTEN showPost FUNCTION =========
         function showPost(index) {
             const post = posts[index];
             if (!post) return;
-            const feed = document.getElementById('blog-feed');
-            feed.style.display = 'none';
-            const postContainer = document.getElementById('blog-post');
-            const postContent = document.getElementById('blog-post-content');
-            postContent.innerHTML = `<h3>${post.title}</h3>` + post.html;
-            // Typeset math if MathJax available
-            if (window.MathJax && typeof window.MathJax.typeset === 'function') {
-                try {
-                    if (typeof MathJax.typesetPromise === 'function') {
-                        MathJax.typesetPromise([postContent]);
-                    } else {
-                        MathJax.typeset();
-                    }
-                } catch (e) {
-                    console.warn('MathJax typesetting error:', e);
-                }
+
+            // Hide feed and search bar
+            document.getElementById('blog-feed').style.display = 'none';
+            document.getElementById('blog-search').style.display = 'none';
+            
+            // Populate header elements
+            document.getElementById('post-author-name').textContent = post.author;
+            document.getElementById('post-date').textContent = post.date;
+            document.getElementById('post-title').textContent = post.title;
+            document.getElementById('post-summary').textContent = post.excerpt ? `${post.excerpt.replace(/\.+$/, '')}...` : '';
+
+            // Populate tags
+            const tagsContainer = document.getElementById('post-tags');
+            tagsContainer.innerHTML = '';
+            if (post.categoryPaths && post.categoryPaths.length > 0) {
+                // Use the first category path for tags
+                post.categoryPaths[0].forEach(catName => {
+                    const tagEl = document.createElement('span');
+                    tagEl.className = 'tag';
+                    tagEl.textContent = catName.toUpperCase();
+                    tagsContainer.appendChild(tagEl);
+                });
             }
-            postContainer.style.display = '';
-            // scroll to top
+            
+            // Set main content and render MathJax
+            const postContent = document.getElementById('blog-post-content');
+            postContent.innerHTML = post.html;
+            if (window.MathJax && typeof window.MathJax.typesetPromise === 'function') {
+                MathJax.typesetPromise([postContent]).catch(err => console.warn('MathJax typesetting error:', err));
+            }
+            
+            // Show the post view
+            document.getElementById('blog-post').style.display = '';
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
+        // ========= END: REWRITTEN showPost FUNCTION =========
 
-        // Back to list button
         document.addEventListener('DOMContentLoaded', () => {
-            const back = document.getElementById('back-to-list');
-            back.addEventListener('click', () => {
+            const backButton = document.getElementById('back-to-list');
+            backButton.addEventListener('click', () => {
                 document.getElementById('blog-post').style.display = 'none';
+                document.getElementById('blog-search').style.display = '';
                 document.getElementById('blog-feed').style.display = '';
-                window.scrollTo({ top: document.getElementById('blog').offsetTop, behavior: 'smooth' });
+                renderBlogFeed();
+                const blogSection = document.getElementById('blog');
+                if (blogSection) {
+                    window.scrollTo({ top: blogSection.offsetTop, behavior: 'smooth' });
+                }
             });
-            // Fetch posts and initialise UI
+            
             fetchPostsFromDir('', []).then(() => {
                 renderCategoryTree();
                 renderBlogFeed();
             });
-            // Search input handler
+            
             document.getElementById('blog-search').addEventListener('input', (e) => {
                 searchQuery = e.target.value.trim();
                 renderBlogFeed();
