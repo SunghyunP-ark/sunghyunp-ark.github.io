@@ -25,8 +25,8 @@ This is the recommended format, including the new `image`, `author`, and `summar
 ---
 title: Tips for OPRO Prompt Optimization
 date: 2025-10-02
-categories: [AI, Optimization, Notes]
-author: Jaewook
+categories: [AI, LLM, Notes]
+author: sunghyun
 image: static/img/opro-thumbnail.png
 summary: "Learn about advanced techniques for prompt optimization using OPRO and how to combine it with evolutionary algorithms to maximize performance."
 ---
@@ -52,9 +52,9 @@ Copy and paste these templates to get started quickly.
 
 ```yaml
 ---
-title: Notes on Scientific World Models
+title: Notes on World Models
 date: 2025-10-03
-categories: [AI for Science, World Modeling, Notes]
+categories: [AI for Science, World Model, Notes]
 author: Sunghyun Park
 image: static/img/world-model-thumb.jpg
 summary: "A summary of key insights and recent trends in the application of World Models for scientific discovery."
@@ -76,7 +76,7 @@ summary: "A look back at the implementation, results, and key takeaways from the
 Summary of the project…
 ```
 
-### 😊 **Personal Update (Single Category)**
+###  **Personal Update (Single Category)**
 
 ```yaml
 ---
