@@ -12,13 +12,13 @@ You can now add a thumbnail **image**, an **author**, and a custom **summary** t
 
 ---
 
-### ## 1. Quick Start
+## 1. Quick Start
 
 1.  Create a new `.md` file inside the `blogs/` folder.
 2.  Add the **Front Matter** block at the very top of the file, as shown in the example below.
 3.  Commit and push the file to the `main` branch. The blog list will update automatically.
 
-#### ### ✅ **Full Example (All Features)**
+###  **Full Example (All Features)**
 This is the recommended format, including the new `image`, `author`, and `summary` fields.
 
 ```yaml
@@ -44,7 +44,7 @@ Start writing your post body here...
 
 -----
 
-### ## 2. Templates
+## 2. Templates
 
 Copy and paste these templates to get started quickly.
 
@@ -62,7 +62,7 @@ summary: "A summary of key insights and recent trends in the application of Worl
 Write your content here…
 ```
 
-#### ### 🚀 **Project Retrospective (Single Category)**
+###  **Project Retrospective (Single Category)**
 
 ```yaml
 ---
@@ -76,7 +76,7 @@ summary: "A look back at the implementation, results, and key takeaways from the
 Summary of the project…
 ```
 
-#### ### 😊 **Personal Update (Single Category)**
+### 😊 **Personal Update (Single Category)**
 
 ```yaml
 ---
@@ -92,7 +92,7 @@ Recent updates…
 
 -----
 
-### ## 3. Recommended Folder Structure
+## 3. Recommended Folder Structure
 
 (No changes from before)
 
@@ -105,7 +105,7 @@ blogs/
 
 -----
 
-### ## 4. Checklist
+## 4. Checklist
 
   - [ ] Did you include the `---` fences at the start and end of the Front Matter?
   - [ ] Did you fill in the required fields: `title`, `date`, `category`/`categories`, and `image`?
@@ -116,7 +116,7 @@ blogs/
 
 -----
 
-### ## 5. Troubleshooting
+## 5. Troubleshooting
 
   * **Post is not appearing in the list:**
 
