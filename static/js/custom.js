@@ -311,6 +311,145 @@
     }
 
 	/* ---------------------------------------------- /*
+	 * Skill Bar Animation
+	/* ---------------------------------------------- */
+	NAY.SkillBarAnimation = function() {
+		var skillBarsAnimated = false;
+		
+		// 스킬바 애니메이션 함수
+		function animateSkillBars() {
+			if (skillBarsAnimated) return;
+			
+			$('.skill-bar').each(function() {
+				var $this = $(this);
+				var $skillItem = $this.closest('.skill-item');
+				var targetWidth = parseInt($this.data('width'));
+				
+				if (targetWidth && targetWidth > 0) {
+					// 애니메이션 실행
+					$this.animate({
+						width: targetWidth + '%'
+					}, {
+						duration: 2000,
+						easing: 'swing',
+						step: function(now) {
+							// 퍼센트 표시도 함께 업데이트
+							var percentage = Math.round(now);
+							$skillItem.find('.skill-percentage').text(percentage + '%');
+						},
+						complete: function() {
+							// 애니메이션 완료 후 정확한 퍼센트로 설정
+							$skillItem.find('.skill-percentage').text(targetWidth + '%');
+						}
+					});
+				}
+			});
+			skillBarsAnimated = true;
+		}
+		
+		// 스크롤 이벤트로 스킬 섹션이 보일 때 애니메이션 실행
+		$(window).on('scroll', function() {
+			var skillsSection = $('.skills-section');
+			if (skillsSection.length) {
+				var sectionTop = skillsSection.offset().top;
+				var sectionHeight = skillsSection.outerHeight();
+				var windowTop = $(window).scrollTop();
+				var windowHeight = $(window).height();
+				
+				if (windowTop + windowHeight > sectionTop + 100) {
+					animateSkillBars();
+				}
+			}
+		});
+		
+		// 페이지 로드 시에도 체크
+		setTimeout(function() {
+			var skillsSection = $('.skills-section');
+			if (skillsSection.length) {
+				var sectionTop = skillsSection.offset().top;
+				var windowHeight = $(window).height();
+				
+				if (sectionTop < windowHeight) {
+					animateSkillBars();
+				}
+			}
+		}, 500);
+	}
+
+	/* ---------------------------------------------- /*
+	 * Copy to Clipboard Function
+	/* ---------------------------------------------- */
+	NAY.CopyToClipboard = function() {
+		$('.copy-btn').on('click', function() {
+			var $this = $(this);
+			var textToCopy = $this.data('copy');
+			var originalIcon = $this.find('i').attr('class');
+			
+			// 클립보드에 복사
+			if (navigator.clipboard && window.isSecureContext) {
+				// 최신 브라우저의 Clipboard API 사용
+				navigator.clipboard.writeText(textToCopy).then(function() {
+					showCopySuccess($this, originalIcon);
+				}).catch(function() {
+					fallbackCopyTextToClipboard(textToCopy, $this, originalIcon);
+				});
+			} else {
+				// 구형 브라우저를 위한 fallback
+				fallbackCopyTextToClipboard(textToCopy, $this, originalIcon);
+			}
+		});
+	}
+	
+	// Fallback 복사 함수
+	function fallbackCopyTextToClipboard(text, $button, originalIcon) {
+		var textArea = document.createElement("textarea");
+		textArea.value = text;
+		textArea.style.top = "0";
+		textArea.style.left = "0";
+		textArea.style.position = "fixed";
+		textArea.style.opacity = "0";
+		
+		document.body.appendChild(textArea);
+		textArea.focus();
+		textArea.select();
+		
+		try {
+			var successful = document.execCommand('copy');
+			if (successful) {
+				showCopySuccess($button, originalIcon);
+			} else {
+				showCopyError($button, originalIcon);
+			}
+		} catch (err) {
+			showCopyError($button, originalIcon);
+		}
+		
+		document.body.removeChild(textArea);
+	}
+	
+	// 복사 성공 시각적 피드백
+	function showCopySuccess($button, originalIcon) {
+		$button.addClass('copied');
+		$button.find('i').removeClass().addClass('fas fa-check');
+		
+		setTimeout(function() {
+			$button.removeClass('copied');
+			$button.find('i').removeClass().addClass(originalIcon);
+		}, 2000);
+	}
+	
+	// 복사 실패 시각적 피드백
+	function showCopyError($button, originalIcon) {
+		$button.addClass('error');
+		$button.find('i').removeClass().addClass('fas fa-times');
+		
+		setTimeout(function() {
+			$button.removeClass('error');
+			$button.find('i').removeClass().addClass(originalIcon);
+		}, 2000);
+	}
+
+	/* ---------------------------------------------- /*
 	 * All Functions
 	/* ---------------------------------------------- */
     // loadScript
@@ -353,13 +492,16 @@
 		NAY.ProgressBar(),
 		NAY.mTypeIt(),
 		NAY.Owl(),
+		NAY.SkillBarAnimation(),
+		NAY.CopyToClipboard(),
     $('[data-toggle="tooltip"]').tooltip({ trigger: "hover" });
 	});
 
 	// Document on Scrool
 	$(window).on("scroll", function(){
 		NAY.ProgressBar(),
-		NAY.HeaderFixd();
+		NAY.HeaderFixd(),
+		NAY.SkillBarAnimation();
 	});
 
 	// Window on Resize

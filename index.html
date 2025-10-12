@@ -83,6 +83,16 @@
                     </a>
                 </li>
                 <li>
+                    <a class="nav-link" href="#topics" data-toggle="tooltip" title="Topics of Interest">
+                        <i class="fas fa-lightbulb"></i>
+                    </a>
+                </li>
+                <li>
+                    <a class="nav-link" href="#skills" data-toggle="tooltip" title="Skills">
+                        <i class="fas fa-cogs"></i>
+                    </a>
+                </li>
+                <li>
                     <a class="nav-link" href="#experience" data-toggle="tooltip" title="Experience">
                         <i class="fas fa-briefcase"></i>
                     </a>
@@ -125,7 +135,7 @@
                                 <div class="nav social-icons justify-content-center">
                                     <a href="https://6rn-657.tistory.com", target="_blank"><i class="ai ai-ideas-repec"></i></a>
                                     <a href="https://x.com/bagseon82212157"><i class="fab fa-twitter"></i></a>
-                                    <a href="https://www.linkedin.com/in/성현-박-94125a29a/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                                    <a href="https://www.linkedin.com/in/sunghyun-park-6rn/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
                                     <a href="https://github.com/SunghyunP-ark" target="_blank"><i class="fab fa-github"></i></a>
                                     <a href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram"></i></a>
                                 </div> 
@@ -148,11 +158,13 @@
                                     <a href="https://www.yonsei.ac.kr/" target="_blank">Yonsei University</a> in Seoul, South Korea.
                                 </p>
                                 <p>
-                                    My research interests lie at the intersection of machine learning for science, optimization and the modeling of complex natural systems. 
-                                    I focus on <b>world model</b> that blends data-driven learning with established domain models to build accurate, robust models. I enjoy developing hybrid approaches that incorporate physical priors, perform structure-aware regularization, and leverage system identification or data assimilation to close the loop between observation, simulation, and prediction.
-                                </p>
-                                <p>
-                                    In parallel, I investigate scientific reasoning in large language models as practical tools for research—designing workflows that pair LLMs with verifiers, external tools, and alignment techniques to improve faithfulness, calibration, and safe decision support. On the application side, I explore representation learning for complex biological data—especially cellular and microscopy images—using self-supervised objectives, segmentation and tracking pipelines, and geometry-aware embeddings to extract interpretable structure from noisy measurements. Across these directions, my goal is to connect theoretical insight with end-to-end practice: principled algorithms that are transparent and reliable, yet deliver real utility in AI-augmented scientific discovery and computational biology.
+                                    I’ve been drawn to <b>SYSTEMS</b> since high school—first to the intricate systems of living cells. 
+                                    Over time that curiosity expanded beyond biology as I discovered how data-driven modeling can reveal structure 
+                                    in almost any complex process. The moment when AI-driven advances like AlphaFold reshaped structural biology and 
+                                    even sparked conversations about Nobel-level recognition crystallized something for me:
+                                    <b>AI isn’t just a tool for analysis</b>. it can be an instrument of discovery. 
+                                    Today, I want to build models that blend mechanistic insight with machine learning, 
+                                    and I want to study how LLMs can reason faithfully and safely to support scientific practice.
                                 </p>
                             </div>
                             <div class="info-list">
@@ -181,11 +193,20 @@
                     <div class="col-lg-12 m-15px-tb">
                         <ul class="education-box">
                             <li>
-                                <span>Mar. 2020 - Present</span>
-                                <h5>Yonsei University, Seoul, South Korea</h5>
-                                <h6>Undergraduate Student in Biochemistry & Computer Science (Double Major)</h6>
-                                <p>- GPA: 3.91/4.3</p>
-                                <p>- Oct. 2022 - Jul. 2024 : Compulsory Military Service, Served as a sergent in R.O.K Air Force.</p>
+                                <div class="education-item">
+                                    <div class="education-logo">
+                                        <img src="static/img/logo/yonsei.png" alt="Yonsei University" class="logo-image">
+                                    </div>
+                                    <div class="education-content">
+                                        <div class="education-period">Mar. 2020 - Present</div>
+                                        <h5 class="education-school">Yonsei University</h5>
+                                        <h6 class="education-degree">Biochemistry & Computer Science (Double Major)</h6>
+                                        <div class="education-details">
+                                            <div class="education-gpa">GPA: 3.91/4.3 (Major GPA: 3.94/4.3)</div>
+                                            <div class="education-military">Military Service: Oct. 2022 - Jul. 2024 (R.O.K Air Force Sergeant)</div>
+                                        </div>
+                                    </div>
+                                </div>
                             </li>
                         </ul>
                     </div>
@@ -207,13 +228,15 @@
                                     <img src="static/img/snu_hack.png" alt="Homepage Design">
                                     <div class="project-content">
                                         <h5>HACK SNU 2025 : JoJo Interview</h5>
-                                        <p class="mb-1">Oct. 2025 - Present (In Progress)</p> 
+                                        <div class="project-meta">
+                                            <span class="project-date">Oct. 2025 - Present (In Progress)</span>
+                                        </div>
                                         <p>
                                         We are developing the System architecture and AI engine for <b>JoJo Interview</b>, a service that enables high school students to practice interviews anytime, anywhere.
                                         We implement microservice architecture and build asynchronous pipelines for scalable video analysis.
                                         In terms of AI, we will design AI modules such as VLM/LLM for automated feedback and dynamic interview question generation.
                                         </p>
-                                        <p class="mb-1"><small><b>Member:</b> Jaeho Lim, Hwanhoon Chung, <b>Sunghyun Park</b></small></p>
+                                        <p class="mb-1"><small><b>Member:</b> Jaeho Lim, Hwanhoon Chung, <span class="highlight-name">Sunghyun Park</span></small></p>
                                         <div class="mt-auto">
                                             <a class="btn btn-sm btn-primary" href="https://jojomeeting.com" target="_blank">Homepage</a>
                                         </div>
@@ -225,12 +248,14 @@
                                     <img src="static/img/homepage.png" alt="Homepage Design">
                                     <div class="project-content">
                                         <h5>My Academic Homepage</h5>
-                                        <p class="mb-1">Jun. 2025 - Oct. 2025</p>
+                                        <div class="project-meta">
+                                            <span class="project-date">Jun. 2025 - Oct. 2025</span>
+                                        </div>
                                         <p>
                                         This Project is the website you are currently watching. The site includes features such as Gallery and Blog,
                                         in particular, the Blog supports search and parses Markdown files, allowing category-based search in a tree structure.
                                         </p>
-                                        <p class="mb-1"><small><b>Member:</b> Sunghyun Park</small></p>
+                                        <p class="mb-1"><small><b>Member:</b> <span class="highlight-name">Sunghyun Park</span></small></p>
                                         <div class="mt-auto">
                                             <a class="btn btn-sm btn-primary" href="https://github.com/SunghyunP-ark/sunghyunp-ark.github.io" target="_blank">Code</a>
                                         </div>
@@ -242,12 +267,14 @@
                                     <img src="static/img/project3.png" alt="Homepage Design">
                                     <div class="project-content">
                                         <h5>LLM Course Project : Prompt Optimization</h5>
-                                        <p class="mb-1">Jun. 2025</p>
+                                        <div class="project-meta">
+                                            <span class="project-date">Jun. 2025</span>
+                                        </div>
                                         <p>
                                         We Implemented a prompt-optimization framework that combines OPRO with an evolutionary algorithm (selection, crossover, mutation) 
                                         and an LLM-based scorer to drive self‑rewriting and selection and we evaluated on GSM8K with Llama-3.1-8B-Instruct and Mistral-7B-Instruct.
                                         </p>
-                                        <p class="mb-1"><small><b>Member:</b> Sunghyun Park</small></p>
+                                        <p class="mb-1"><small><b>Member:</b> <span class="highlight-name">Sunghyun Park</span></small></p>
                                         <div class="mt-auto">
                                             <a class="btn btn-sm btn-primary mr2" href="projects/LLM_final_project_2020162029_SunghyunPark.pdf" target="_blank">Read Slide</a>
                                             <a class="btn btn-sm btn-secondary" href="https://drive.google.com/file/d/157icn03gwgjtJ0IuxhiFkt-RF9sPYt42/view?usp=sharing" target="_blank">Watch Video</a>
@@ -261,14 +288,16 @@
                                     <img src="static/img/project2.png" alt="WebOS Boot Optimization">
                                     <div class="project-content">
                                         <h5>Reducing WebOS Boot Latency</h5>
-                                        <p class="mb-1">Mar. 2025 - Jun.2025</p>
+                                        <div class="project-meta">
+                                            <span class="project-date">Mar. 2025 - Jun.2025</span>
+                                        </div>
                                         <p>
                                             Using ftrace and kernel instrumentation, we captured boot‑time function traces to
                                             identify hotspots and page faults. By reorganizing code sections via a custom linker
                                             script and optimizing the ELF binary layout, we reduced kernel page faults and
                                             improved boot times for embedded devices.
                                         </p>
-                                        <p class="mb-1"><small><b>Members:</b> Sunghyun Park, Jonghyun Hwang, Sungyoon Lim, Changwon Kim</small></p>
+                                        <p class="mb-1"><small><b>Members:</b> <span class="highlight-name">Sunghyun Park</span>, Jonghyun Hwang, Sungyoon Lim, Changwon Kim</small></p>
                                         <div class="mt-auto">
                                             <a class="btn btn-sm btn-primary" href="projects/webos.pdf" target="_blank">Read Poster</a>
                                             <a class="btn btn-sm btn-secondary mr2" href="https://drive.google.com/file/d/1B6N1LI7d2y6uDq564PfLgFiYI12pRJII/view?usp=sharing" target="_blank">Watch Video</a>
@@ -283,14 +312,16 @@
                                     <img src="static/img/project1.png" alt="B Cell Mechanotyping">
                                     <div class="project-content">
                                         <h5>Force‑Driven Mechano‑Typing of B Cells - Multi-channel image analysis of CD40-CD40L interaction using autoencoder</h5>
-                                        <p class="mb-1">Dec. 2024 - Feb.2025</p>
+                                        <div class="project-meta">
+                                            <span class="project-date">Dec. 2024 - Feb.2025</span>
+                                        </div>
                                         <p>
                                             We combined multi‑threshold molecular tension probes and three‑channel microscopy
                                             (DIC, RICM, TIRF) with a deep autoencoder to encode single‑cell images into 32‑D
                                             biophysical representations. This framework reveals how mechanical forces and CD40L
                                             mutations jointly shape B‑cell morphology and adhesion.
                                         </p>
-                                        <p class="mb-1"><small><b>Members:</b> Sunghyun Park, Yelim Jeon, Hyunkyu Choi</small></p>
+                                        <p class="mb-1"><small><b>Members:</b> <span class="highlight-name">Sunghyun Park</span>, Yelim Jeon, Hyunkyu Choi</small></p>
                                         <div class="mt-auto">
                                             <a class="btn btn-sm btn-primary mr2" href="projects/Force-Driven Mechano-Typing of B Cells - Multi-channel image analysis of cd40-cd40l interaction using autoencoder.pdf" target="_blank">Read poster</a>                   
                                         </div>    
@@ -305,60 +336,126 @@
                 <div class="separated"></div>
                 <!-- End separated -->
 
-                <div class="title">
+                <div id="topics" class="title">
                     <h3>Topics of Interest.</h3>
                 </div>
                 <div class="feature-row">
                     <div class="col-lg-6 m-15px-tb">
                         <div class="feature-box-01">
-                            <i class="fas fa-gears"></i>
+                            <i class="fas fa-brain"></i>
                             <div class="feature-content">
-                                <h5>Optimization Theory and Training Dynamics in Deep Learning</h5>
+                                <h5>Deep Learning Theory</h5>
                                 <p>
-                                    I am deeply interested in theoretical analysis of optimization algorithms such as Gradient Descent 
-                                    and SGD, and their dynamics in training modern architectures including transformers and diffusion models.
-                                     I also explore optimal transport and Wasserstein gradient flows as a way to better understand learning trajectories.
+                                    I am deeply interested in the theoretical analysis of optimization and its dynamics in diffusion models.
+                                    I’m currently studying the math behind these systems—clean SDE/ODE formulations and what they imply for
+                                    convergence, stability, and generalization.
                                 </p>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-6 m-15px-tb">
                         <div class="feature-box-01">
-                            <i class="fas fa-gamepad"></i>
+                            <i class="fas fa-robot"></i>
                             <div class="feature-content">
-                                <h5>Inference Strategies and Structural Understanding of LLMs</h5>
+                                <h5>Large Language Models</h5>
                                 <p>
-                                    My focus lies in decoding strategies like speculative decoding, self-refinement, 
-                                    and verifier-based inference (e.g., Monte Carlo tree search). Rather than mere usage, 
-                                    I aim to understand how large language models function and what emergent behaviors arise from their training dynamics.
-                                </p>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 m-15px-tb">
-                        <div class="feature-box-01">
-                            <i class="fa-regular fa-hexagon-nodes"></i>
-                            <div class="feature-content">
-                                <h5>Representation Learning for Biological Image Analysis</h5>
-                                <p>
-                                    I apply deep learning to analyze cellular and biological image data, 
-                                    exploring unsupervised feature learning through AutoEncoders and VAEs. 
-                                    My work includes clustering multi-channel microscopy data and understanding latent structures 
-                                    relevant to biological conditions or experimental forces.
+                                    I am interested in efficient and reliable inference (ex. speculative decoding, self-refinement), and alignment for faithfulness and safety
+                                    (SFT/LoRA, DPO/ORPO). I also want to explore machine unlearning for LLMs—post-hoc removal of specific data or behaviors, 
+                                    auditing/attribution to trace sources, and principled “forgetting” guarantees to support safety, privacy, and dataset governance.
                                 </p>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-6 m-15px-tb">
                         <div class="feature-box-01">
-                            <i class="fas fa-w"></i>
+                            <i class="fas fa-flask"></i>
                             <div class="feature-content">
-                                <h5>Interpretable Deep Learning and Semantic Understanding of Models</h5>
+                                <h5>AI for Science</h5>
                                 <p>
-                                    I am fascinated by understanding how deep networks make decisions. 
-                                    I explore attention maps, occlusion-based interpretation, and latent space visualization to uncover 
-                                    the semantic structure learned by models and connect them to domain-relevant insights.
+                                    I want to build hybrid world models that blend data-driven learning with mechanistic domain models to
+                                    produce accurate, robust, and sample-efficient simulators. Topics include physics-informed priors,
+                                    system identification, data assimilation, and uncertainty calibration for scientific workflows.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- separated -->
+                <div class="separated"></div>
+                <!-- End separated -->
+
+                <div class="title">
+                    <h3>Skills & Expertise.</h3>
+                </div>
+                <div id="skills" class="skills-section">
+                    <div class="row">
+                        <div class="col-lg-6 m-15px-tb">
+                            <div class="skill-item">
+                                <div class="skill-header">
+                                    <h5 class="skill-title">
+                                        <i class="fas fa-code skill-icon"></i>
+                                        Python & ML Frameworks
+                                    </h5>
+                                    <span class="skill-percentage">70%</span>
+                                </div>
+                                <div class="skill-bar-container">
+                                    <div class="skill-bar" data-width="70" style="width: 0%"></div>
+                                </div>
+                                <p class="skill-description">
+                                    Python, PyTorch, TensorFlow
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 m-15px-tb">
+                            <div class="skill-item">
+                                <div class="skill-header">
+                                    <h5 class="skill-title">
+                                        <i class="fas fa-brain skill-icon"></i>
+                                        Deep Learning
+                                    </h5>
+                                    <span class="skill-percentage">65%</span>
+                                </div>
+                                <div class="skill-bar-container">
+                                    <div class="skill-bar" data-width="65" style="width: 0%"></div>
+                                </div>
+                                <p class="skill-description">
+                                    Neural Networks, Transformers, Diffusion, LLM Alignment, LLM Fine-tuning
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 m-15px-tb">
+                            <div class="skill-item">
+                                <div class="skill-header">
+                                    <h5 class="skill-title">
+                                        <i class="fas fa-dna skill-icon"></i>
+                                        Computational Biology
+                                    </h5>
+                                    <span class="skill-percentage">70%</span>
+                                </div>
+                                <div class="skill-bar-container">
+                                    <div class="skill-bar" data-width="70" style="width: 0%"></div>
+                                </div>
+                                <p class="skill-description">
+                                    Protein Struture Modeling, Microscopy Image Analysis
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 m-15px-tb">
+                            <div class="skill-item">
+                                <div class="skill-header">
+                                    <h5 class="skill-title">
+                                        <i class="fas fa-search skill-icon"></i>
+                                        Data Analysis
+                                    </h5>
+                                    <span class="skill-percentage">60%</span>
+                                </div>
+                                <div class="skill-bar-container">
+                                    <div class="skill-bar" data-width="60" style="width: 0%"></div>
+                                </div>
+                                <p class="skill-description">
+                                    Dimension Reduction, Unsupervised Clustering, Statistical Analysis
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -375,20 +472,27 @@
                 <div class="resume-box">
                     <div class="resume-row">
                         <div class="row">
-                            <div class="col-md-4 col-xl-3">
+                            <div class="col-md-5 col-xl-4">
                                 <div class="rb-left">
-                                    <h6><a href="https://choilab.yonsei.ac.kr/home" target="_blank">Mechano-Biology Lab (The Choi Lab)</a></h6>
-                                    <h5>Yonsei Biochem</h5>
-                                    <p><em>Research Intern</em></p>
-                                    <div class="rb-time">Dec 2024 - Feb 2025</div>
+                                    <div class="experience-item">
+                                        <div class="experience-logo">
+                                            <img src="static/img/logo/poolc.png" alt="PoolC" class="logo-image">
+                                        </div>
+                                        <div class="experience-content">
+                                            <h6><a href="https://poolc.org" target="_blank">PoolC</a></h6>
+                                            <h5>Yonsei University Programming Club</h5>
+                                            <p><em>Member</em></p>
+                                            <div class="rb-time">Mar 2025 - Present</div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-8 col-xl-9">
+                            <div class="col-md-7 col-xl-8">
                                 <div class="rb-right">
                                     <p>
-                                        My main research topic in Mechonbiology Lab was the investigation of
-                                        <em>Deep-Learning approach to make connection with AI and Biology</em>,
-                                        which involves multi-cell image analysis using compuatational methods.
+                                        In PoolC, I actively participated in AI-related paper studying groups and organized seminars on the mathematical foundations of deep learning. 
+                                        My seminars covered essential topics including <em>information theory, maximum likelihood estimation (MLE), maximum a posteriori (MAP), and convex optimization</em>, 
+                                        providing comprehensive understanding of the theoretical underpinnings of modern AI systems.
                                     </p>
                                 </div>
                             </div>
@@ -396,20 +500,55 @@
                     </div>
                     <div class="resume-row">
                         <div class="row">
-                            <div class="col-md-4 col-xl-3">
+                            <div class="col-md-5 col-xl-4">
                                 <div class="rb-left">
-                                    <h6><a href="https://poolc.org" target="_blank">PoolC</a></h6>
-                                    <h5>Yonsei University Programming Club</h5>
-                                    <p><em>Member</em></p>
-                                    <div class="rb-time">Mar 2025 -</div>
+                                    <div class="experience-item">
+                                        <div class="experience-logo">
+                                            <img src="static/img/logo/seoullearn.png" alt="Seoul-Learn" class="logo-image">
+                                        </div>
+                                        <div class="experience-content">
+                                            <h6><a href="https://slearn.seoul.go.kr" target="_blank">Seoul-Learn</a></h6>
+                                            <h5>Educational Mentoring Platform</h5>
+                                            <p><em>Academic Mentor</em></p>
+                                            <div class="rb-time">Jan 2025 - Present</div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-8 col-xl-9">
+                            <div class="col-md-7 col-xl-8">
                                 <div class="rb-right">
                                     <p>
-                                        In PoolC, I mainly studied and implemented <em>visual data generation models</em> based on
-                                        3D morphable face models and neural renderers, specifically aiming to achieve better-performing expression/identity
-                                        swapping between different images or frames.
+                                        I serve as an academic mentor, guiding middle and high school students in mathematics learning and comprehensive academic planning. 
+                                        My role involves providing detailed guidance on major selection, offering comprehensive overviews of CS/AI and science major curricula, 
+                                        explaining prerequisites, and sharing effective study habits to help students make informed decisions about their academic futures.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="resume-row">
+                        <div class="row">
+                            <div class="col-md-5 col-xl-4">
+                                <div class="rb-left">
+                                    <div class="experience-item">
+                                        <div class="experience-logo">
+                                            <img src="static/img/logo/yonsei.png" alt="Choi Lab" class="logo-image">
+                                        </div>
+                                        <div class="experience-content">
+                                            <h6><a href="https://choilab.yonsei.ac.kr/home" target="_blank">Mechano-Biology Lab (The Choi Lab)</a></h6>
+                                            <h5>Yonsei Biochem</h5>
+                                            <p><em>Research Intern</em></p>
+                                            <div class="rb-time">Dec 2024 - Feb 2025</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-7 col-xl-8">
+                                <div class="rb-right">
+                                    <p>
+                                        My main research topic in Mechonbiology Lab was the investigation of
+                                        <em>Deep-Learning approach to make connection with AI and Biology</em>,
+                                        which involves multi-cell image analysis using compuatational methods.
                                     </p>
                                 </div>
                             </div>
@@ -474,10 +613,16 @@
                                 <li class="media">
                                     <i class="ti-email"></i>
                                     <span class="media-body">psh040@yonsei.ac.kr</span>
+                                    <button class="copy-btn" data-copy="psh040@yonsei.ac.kr" title="Copy email">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
                                 </li>
                                 <li class="media">
                                     <i class="ti-mobile"></i>
                                     <span class="media-body">+82-10-9115-0823</span>
+                                    <button class="copy-btn" data-copy="+82-10-9115-0823" title="Copy phone">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
                                 </li>
                                 <!-- <li class="media">
                                     <i class="ti-map"></i>

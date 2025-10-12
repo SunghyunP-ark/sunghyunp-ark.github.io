@@ -2743,3 +2743,582 @@ body.theme-light {
       font-size: 1rem;
   }
 }
+
+/* ============================================
+   Skills Section Styles (스킬 섹션)
+   ============================================ */
+
+.skills-section {
+  margin: 2rem 0;
+}
+
+.skill-item {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, rgba(52, 91, 150, 0.05) 0%, rgba(52, 91, 150, 0.1) 100%);
+  border-radius: 15px;
+  border: 1px solid rgba(52, 91, 150, 0.2);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.skill-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(52, 91, 150, 0.2);
+  border-color: rgba(52, 91, 150, 0.4);
+}
+
+.skill-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: left 0.5s ease;
+}
+
+.skill-item:hover::before {
+  left: 100%;
+}
+
+.skill-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.skill-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #345b96;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.skill-icon {
+  font-size: 1.5rem;
+  color: #345b96;
+  transition: transform 0.3s ease;
+}
+
+.skill-item:hover .skill-icon {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.skill-percentage {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #345b96;
+  background: rgba(52, 91, 150, 0.1);
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  border: 1px solid rgba(52, 91, 150, 0.3);
+}
+
+.skill-bar-container {
+  position: relative;
+  height: 12px;
+  width: 100%;
+  background: rgba(52, 91, 150, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.skill-bar {
+  height: 100%;
+  background: linear-gradient(90deg, 
+    #345b96 0%, 
+    #4a6fa5 25%, 
+    #5d7bb3 50%, 
+    #4a6fa5 75%, 
+    #345b96 100%);
+  border-radius: 10px;
+  position: relative;
+  width: 0%;
+  box-shadow: 0 2px 8px rgba(52, 91, 150, 0.3);
+}
+
+.skill-bar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(255, 255, 255, 0.3) 50%, 
+    transparent 100%);
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.skill-description {
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #606060;
+  font-style: italic;
+}
+
+/* 다크 테마 지원 */
+body.theme-dark .skill-item {
+  background: linear-gradient(135deg, rgba(52, 91, 150, 0.1) 0%, rgba(52, 91, 150, 0.2) 100%);
+  border-color: rgba(52, 91, 150, 0.3);
+}
+
+body.theme-dark .skill-description {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .skill-item {
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .skill-title {
+    font-size: 1.1rem;
+  }
+  
+  .skill-percentage {
+    font-size: 0.9rem;
+    padding: 0.2rem 0.6rem;
+  }
+}
+
+/* ============================================
+   Education & Experience Logos
+   ============================================ */
+
+/* Education 로고 */
+.education-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+}
+
+.education-logo {
+  width: 100px;
+  height: 100px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.education-item:hover .education-logo {
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+
+.education-content {
+  flex: 1;
+}
+
+/* Education 세부 스타일 */
+.education-period {
+  font-size: 0.9rem;
+  color: #666;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.education-school {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
+}
+
+.education-degree {
+  font-size: 1.1rem;
+  color: #345b96;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  line-height: 1.3;
+}
+
+.education-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.education-gpa {
+  font-size: 0.95rem;
+  color: #555;
+  font-weight: 500;
+  padding: 0.3rem 0.8rem;
+  background: rgba(52, 91, 150, 0.05);
+  border-radius: 6px;
+  border-left: 3px solid #345b96;
+}
+
+.education-military {
+  font-size: 0.9rem;
+  color: #666;
+  font-style: italic;
+  padding: 0.3rem 0.8rem;
+  background: rgba(0, 0, 0, 0.02);
+  border-radius: 6px;
+}
+
+/* Experience 로고 */
+.experience-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+}
+
+.experience-logo {
+  width: 100px;
+  height: 100px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.experience-item:hover .experience-logo {
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+
+.experience-content {
+  flex: 1;
+}
+
+/* 로고 이미지 스타일 */
+.logo-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #fff;
+  padding: 6px;
+}
+
+/* ============================================
+   Contact Copy Button Styles
+   ============================================ */
+
+.contact-info .media {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.copy-btn {
+  background: rgba(0, 0, 0, 0.1);
+  border: none;
+  color: #666;
+  padding: 0.15rem;
+  cursor: pointer;
+  font-size: 0.6rem;
+  transition: all 0.3s ease;
+  opacity: 0.6;
+  transform: translateX(5px);
+  margin-left: auto;
+  border-radius: 3px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.contact-info .media:hover .copy-btn {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.copy-btn:hover {
+  color: #345b96;
+  background: rgba(52, 91, 150, 0.15);
+}
+
+.copy-btn:active {
+  transform: scale(0.9);
+}
+
+.copy-btn.copied {
+  color: #28a745;
+}
+
+.copy-btn.copied i::before {
+  content: "\f00c";
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .copy-btn {
+    opacity: 1;
+    transform: translateX(0);
+    font-size: 0.7rem;
+    padding: 0.3rem 0.5rem;
+  }
+}
+
+/* ============================================
+   Projects Section Enhancement
+   ============================================ */
+
+/* Project 카드 개선 */
+.project-card {
+  background: #fff;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border: 1px solid rgba(52, 91, 150, 0.1);
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.project-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #345b96 0%, #4a6fa5 50%, #345b96 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.project-card:hover {
+  transform: translateY(-12px) scale(1.02);
+  box-shadow: 0 20px 60px rgba(52, 91, 150, 0.15);
+  border-color: rgba(52, 91, 150, 0.3);
+}
+
+.project-card:hover::before {
+  opacity: 1;
+}
+
+/* Project 이미지 개선 */
+.project-card img {
+  width: 100%;
+  height: 250px;
+  object-fit: contain;
+  transition: transform 0.4s ease;
+  filter: brightness(0.95);
+  background: #f8f9fa;
+  padding: 15px;
+}
+
+.project-card:hover img {
+  transform: scale(1.05);
+  filter: brightness(1);
+}
+
+/* Project 콘텐츠 개선 */
+.project-content {
+  padding: 2rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 252, 0.9) 100%);
+}
+
+.project-content h5 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 0.75rem;
+  line-height: 1.3;
+  transition: color 0.3s ease;
+}
+
+.project-card:hover .project-content h5 {
+  color: #345b96;
+}
+
+.project-content p {
+  color: #5a6c7d;
+  line-height: 1.7;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+
+.project-content p.mb-1 {
+  color: #7f8c8d;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.project-content small {
+  color: #95a5a6;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+/* Project 메타 정보 (날짜) */
+.project-meta {
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.project-date {
+  background: linear-gradient(135deg, #345b96 0%, #4a6fa5 100%);
+  color: white;
+  padding: 0.27rem 0.67rem;
+  border-radius: 20px;
+  font-size: 0.53rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 8px rgba(52, 91, 150, 0.3);
+  display: inline-block;
+}
+
+/* 이름 강조 스타일 */
+.highlight-name {
+  background: linear-gradient(135deg, #345b96 0%, #4a6fa5 100%);
+  color: white;
+  padding: 0.2rem 0.6rem;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 6px rgba(52, 91, 150, 0.3);
+  display: inline-block;
+  margin-left: 0.2rem;
+}
+
+/* 버튼 개선 */
+.project-content .btn {
+  border-radius: 25px;
+  padding: 0.6rem 1.5rem;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  border: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.project-content .btn-primary {
+  background: linear-gradient(135deg, #345b96 0%, #4a6fa5 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(52, 91, 150, 0.3);
+}
+
+.project-content .btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(52, 91, 150, 0.4);
+  background: linear-gradient(135deg, #2a4a7a 0%, #3d5f8f 100%);
+}
+
+.project-content .btn-secondary {
+  background: linear-gradient(135deg, #6c757d 0%, #868e96 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3);
+}
+
+.project-content .btn-secondary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(108, 117, 125, 0.4);
+  background: linear-gradient(135deg, #5a6268 0%, #727a82 100%);
+}
+
+/* 버튼 그룹 스타일 */
+.project-content .mt-auto {
+  margin-top: auto;
+  padding-top: 1.5rem;
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+/* 반응형 개선 */
+@media (max-width: 768px) {
+  .project-card {
+    margin-bottom: 2rem;
+  }
+  
+  .project-content {
+    padding: 1.5rem;
+  }
+  
+  .project-content h5 {
+    font-size: 1.2rem;
+  }
+  
+  .project-card img {
+    height: 220px;
+  }
+  
+  .project-date {
+    font-size: 0.5rem;
+    padding: 0.2rem 0.53rem;
+  }
+  
+  .highlight-name {
+    font-size: 0.8rem;
+    padding: 0.15rem 0.5rem;
+  }
+  
+  .project-content .mt-auto {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .project-content .btn {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .project-content {
+    padding: 1.25rem;
+  }
+  
+  .project-content h5 {
+    font-size: 1.1rem;
+  }
+  
+  .project-card img {
+    height: 200px;
+  }
+  
+  .project-date {
+    font-size: 0.47rem;
+    padding: 0.17rem 0.4rem;
+  }
+  
+  .highlight-name {
+    font-size: 0.75rem;
+    padding: 0.1rem 0.4rem;
+  }
+}
