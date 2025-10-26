@@ -166,11 +166,17 @@
             const renderer = new marked.Renderer();
             renderer.image = function (href, title, text) {
                 console.log('Image renderer called with:', { href, title, text });
+                console.log('href type:', typeof href, 'href value:', href);
+                
                 let src = href;
                 if (href && typeof href === 'string' && !href.match(/^https?:\/\//) && !href.startsWith('data:')) {
                     const cleanHref = href.replace(/^\/+/, '');
                     src = `https://raw.githubusercontent.com/${githubUsername}/${githubRepo}/${branch}/${cleanHref}`;
                     console.log('Converted image path:', src);
+                } else if (href && typeof href === 'object') {
+                    // Handle case where href is an object
+                    console.log('href is an object, trying to extract string value');
+                    src = href.toString();
                 }
                 const titleAttr = title ? ` title="${title}"` : '';
                 const result = `<img src="${src}" alt="${text}"${titleAttr} class="img-fluid my-3">`;
