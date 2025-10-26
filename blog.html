@@ -249,6 +249,8 @@
                         const html = marked.parse(content);
                         console.log('Parsed HTML content:', html);
                         console.log('Original markdown content:', content);
+                        console.log('Looking for image in HTML:', html.includes('<img'));
+                        console.log('Looking for DDPMtn in HTML:', html.includes('DDPMtn'));
                         let excerpt = front.summary || ''; // Use summary from frontmatter if available
                         if (!excerpt) {
                             const tmp = document.createElement('div');
