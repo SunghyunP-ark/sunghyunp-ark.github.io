@@ -168,18 +168,32 @@
                 console.log('Image renderer called with:', { href, title, text });
                 console.log('href type:', typeof href, 'href value:', href);
                 
-                let src = href;
-                if (href && typeof href === 'string' && !href.match(/^https?:\/\//) && !href.startsWith('data:')) {
-                    const cleanHref = href.replace(/^\/+/, '');
+                // Handle all possible href types
+                let src = '';
+                if (typeof href === 'string') {
+                    src = href;
+                } else if (typeof href === 'object' && href !== null) {
+                    // Try to extract string value from object
+                    if (href.url) {
+                        src = href.url;
+                    } else if (href.href) {
+                        src = href.href;
+                    } else {
+                        src = href.toString();
+                    }
+                } else {
+                    src = String(href || '');
+                }
+                
+                // Convert relative paths to GitHub raw URLs
+                if (src && !src.match(/^https?:\/\//) && !src.startsWith('data:') && !src.startsWith('#')) {
+                    const cleanHref = src.replace(/^\/+/, '');
                     src = `https://raw.githubusercontent.com/${githubUsername}/${githubRepo}/${branch}/${cleanHref}`;
                     console.log('Converted image path:', src);
-                } else if (href && typeof href === 'object') {
-                    // Handle case where href is an object
-                    console.log('href is an object, trying to extract string value');
-                    src = href.toString();
                 }
+                
                 const titleAttr = title ? ` title="${title}"` : '';
-                const result = `<img src="${src}" alt="${text}"${titleAttr} class="img-fluid my-3">`;
+                const result = `<img src="${src}" alt="${text || ''}"${titleAttr} class="img-fluid my-3">`;
                 console.log('Final image HTML:', result);
                 return result;
             };
