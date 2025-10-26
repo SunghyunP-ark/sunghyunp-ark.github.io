@@ -165,13 +165,17 @@
         (function() {
             const renderer = new marked.Renderer();
             renderer.image = function (href, title, text) {
+                console.log('Image renderer called with:', { href, title, text });
                 let src = href;
-                if (href && !href.match(/^https?:\/\//) && !href.startsWith('data:')) {
+                if (href && typeof href === 'string' && !href.match(/^https?:\/\//) && !href.startsWith('data:')) {
                     const cleanHref = href.replace(/^\/+/, '');
                     src = `https://raw.githubusercontent.com/${githubUsername}/${githubRepo}/${branch}/${cleanHref}`;
+                    console.log('Converted image path:', src);
                 }
                 const titleAttr = title ? ` title="${title}"` : '';
-                return `<img src="${src}" alt="${text}"${titleAttr} class="img-fluid my-3">`;
+                const result = `<img src="${src}" alt="${text}"${titleAttr} class="img-fluid my-3">`;
+                console.log('Final image HTML:', result);
+                return result;
             };
             marked.setOptions({ renderer });
         })();
@@ -212,10 +216,13 @@
         async function fetchPostsFromDir(dir = '', parentPath = []) {
             const basePath = blogDir + (dir ? '/' + dir : '');
             const url = `https://api.github.com/repos/${githubUsername}/${githubRepo}/contents/${basePath}?ref=${branch}`;
+            console.log('Fetching from:', url);
             let files;
             try {
                 const resp = await fetch(url);
+                console.log('Response status:', resp.status);
                 files = await resp.json();
+                console.log('Files found:', files.length);
             } catch (err) {
                 console.error('Error listing directory', basePath, err);
                 return;
@@ -229,15 +236,19 @@
                     const newPath = [...parentPath, item.name];
                     await fetchPostsFromDir(dir ? `${dir}/${item.name}` : item.name, newPath);
                 } else if (item.type === 'file' && item.name.endsWith('.md')) {
+                    console.log('Processing markdown file:', item.name);
                     try {
                         const res = await fetch(item.download_url);
                         const mdContent = await res.text();
                         const { front, content } = parseFrontMatter(mdContent);
+                        console.log('Parsed front matter:', front);
                         const title = front.title || item.name.replace(/\.md$/, '');
                         const date = front.date || '';
                         const author = front.author || 'Sunghyun Park'; // Read author, with a default value
                         const image = front.image || 'placeholder_light_gray_block.png';
                         const html = marked.parse(content);
+                        console.log('Parsed HTML content:', html);
+                        console.log('Original markdown content:', content);
                         let excerpt = front.summary || ''; // Use summary from frontmatter if available
                         if (!excerpt) {
                             const tmp = document.createElement('div');
@@ -265,7 +276,12 @@
                         }
                         const postIndex = posts.length;
                         posts.push({ title, date, author, image, html, excerpt, categoryPaths });
-                        categoryPaths.forEach(cp => addPostToTree(cp, postIndex));
+                        console.log('Added post:', title, 'Total posts:', posts.length);
+                        console.log('Category paths for this post:', categoryPaths);
+                        categoryPaths.forEach(cp => {
+                            console.log('Adding post to category path:', cp);
+                            addPostToTree(cp, postIndex);
+                        });
                     } catch (err) {
                         console.error('Error loading post', item.name, err);
                     }
@@ -307,6 +323,9 @@
             });
             rootLi.appendChild(rootLabel);
             container.appendChild(rootLi);
+            
+            console.log('Rendering category tree, total categories:', Object.keys(categoryTree.children).length);
+            console.log('Category tree structure:', categoryTree);
 
             function build(node, parentEl) {
                 const ul = document.createElement('ul');
@@ -502,6 +521,8 @@
             });
             
             fetchPostsFromDir('', []).then(() => {
+                console.log('All posts loaded, total:', posts.length);
+                console.log('Posts:', posts.map(p => p.title));
                 renderCategoryTree();
                 renderBlogFeed();
             });
