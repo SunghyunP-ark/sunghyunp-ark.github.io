@@ -3,3 +3,4 @@ __MACOSX/
 GUIDE.md
 .claude/launch.json
 .claude/settings.local.json
+start-dev.sh
