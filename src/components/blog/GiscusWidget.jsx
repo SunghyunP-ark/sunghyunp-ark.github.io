@@ -12,9 +12,9 @@ export default function GiscusWidget() {
     script.setAttribute('data-repo', 'SunghyunP-ark/sunghyunp-ark.github.io')
     // TODO: Fill in repo-id and category-id after installing Giscus app on the repo
     // Visit https://giscus.app to generate these values
-    script.setAttribute('data-repo-id', '')
+    script.setAttribute('data-repo-id', 'R_kgDOP2p3Jg')
     script.setAttribute('data-category', 'Announcements')
-    script.setAttribute('data-category-id', '')
+    script.setAttribute('data-category-id', 'DIC_kwDOP2p3Js4C6X0r')
     script.setAttribute('data-mapping', 'pathname')
     script.setAttribute('data-strict', '0')
     script.setAttribute('data-reactions-enabled', '1')
