@@ -1,0 +1,65 @@
+.fm-form {
+  padding: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.fm-form__heading {
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+
+.fm-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.fm-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 12px;
+}
+
+.fm-label {
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+}
+
+.fm-input {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  padding: 7px 10px;
+  outline: none;
+  width: 100%;
+  transition: border-color 0.2s;
+}
+
+.fm-input:focus {
+  border-color: var(--accent);
+}
+
+.fm-input::placeholder {
+  color: var(--muted);
+}
+
+.fm-textarea {
+  resize: vertical;
+  min-height: 70px;
+  font-family: var(--font-ui);
+  line-height: 1.5;
+}
+
+input[type="date"].fm-input::-webkit-calendar-picker-indicator {
+  filter: invert(0.6);
+}

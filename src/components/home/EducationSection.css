@@ -1,0 +1,86 @@
+.edu-card {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  position: relative;
+  overflow: hidden;
+}
+
+.edu-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+}
+
+.edu-logo-col {
+  flex-shrink: 0;
+}
+
+.edu-logo {
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+  border-radius: var(--radius);
+  background: rgba(255,255,255,0.05);
+  padding: 8px;
+}
+
+.edu-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.edu-period {
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  color: var(--gold);
+  letter-spacing: 0.05em;
+}
+
+.edu-school {
+  font-family: var(--font-head);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+
+.edu-degree {
+  color: var(--accent);
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.edu-details {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.edu-gpa,
+.edu-military {
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.edu-gpa i,
+.edu-military i {
+  color: var(--accent);
+  margin-right: 6px;
+  font-size: 0.7rem;
+}
+
+@media (max-width: 600px) {
+  .edu-card { flex-direction: column; gap: 16px; padding: 24px; }
+}

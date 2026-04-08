@@ -1,0 +1,12 @@
+.img-helper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.img-helper__error {
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  color: var(--accent-2);
+}

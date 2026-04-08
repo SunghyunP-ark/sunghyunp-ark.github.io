@@ -1,0 +1,41 @@
+.editor-pane {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.editor-pane__header {
+  padding: 8px 14px;
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.editor-pane__label {
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.editor-pane__label i {
+  color: var(--accent);
+}
+
+.editor-pane__cm {
+  flex: 1;
+  overflow: hidden;
+}
+
+.editor-pane__cm .cm-editor {
+  height: 100%;
+}
+
+.editor-pane__cm .cm-scroller {
+  overflow: auto;
+}

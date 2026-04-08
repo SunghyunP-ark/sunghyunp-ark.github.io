@@ -1,0 +1,143 @@
+.editor-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Topbar */
+.editor-topbar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 20px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  z-index: 10;
+}
+
+.editor-topbar__back {
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  transition: color 0.2s;
+  flex-shrink: 0;
+}
+
+.editor-topbar__back:hover { color: var(--accent); }
+
+.editor-topbar__title {
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  color: var(--text);
+  flex: 1;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.editor-topbar__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* Banner */
+.editor-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 20px;
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  flex-shrink: 0;
+}
+
+.editor-banner--ok  { background: rgba(6,255,165,0.1); color: var(--code); border-bottom: 1px solid rgba(6,255,165,0.2); }
+.editor-banner--err { background: rgba(247,37,133,0.1); color: var(--accent-2); border-bottom: 1px solid rgba(247,37,133,0.2); }
+
+/* Body */
+.editor-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  flex: 1;
+  overflow: hidden;
+}
+
+.editor-left {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-right: 1px solid var(--border);
+}
+
+.editor-cm-wrap {
+  flex: 1;
+  overflow: hidden;
+}
+
+.editor-right {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Modal */
+.editor-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(4,8,15,0.8);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  backdrop-filter: blur(4px);
+}
+
+.editor-modal {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  max-width: 480px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.editor-modal__title {
+  font-family: var(--font-head);
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.editor-modal__desc {
+  font-size: 0.85rem;
+  color: var(--muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.editor-modal__desc a { color: var(--accent); }
+.editor-modal__desc code { color: var(--code); background: var(--surface-2); padding: 1px 5px; border-radius: 3px; font-family: var(--font-code); }
+
+.editor-modal__actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+@media (max-width: 768px) {
+  .editor-body { grid-template-columns: 1fr; }
+  .editor-right { display: none; }
+}
