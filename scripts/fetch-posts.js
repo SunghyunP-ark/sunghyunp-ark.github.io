@@ -83,12 +83,21 @@ async function fetchDir(dir = '', parentPath = []) {
 }
 
 console.log('📥 블로그 포스트 가져오는 중...')
-const posts = await fetchDir()
-posts.sort((a, b) => b.date.localeCompare(a.date))
-console.log(`✅ ${posts.length}개 포스트 완료`)
+console.log('🔑 Token 설정 여부:', TOKEN ? '있음' : '없음 (unauthenticated)')
+
+let posts = []
+try {
+  posts = await fetchDir()
+  posts.sort((a, b) => b.date.localeCompare(a.date))
+  console.log(`✅ ${posts.length}개 포스트 완료`)
+} catch (err) {
+  console.error('❌ 포스트 가져오기 실패:', err.message)
+  console.error('⚠️  posts.json을 빈 배열로 저장합니다 (빌드는 계속)')
+}
 
 const outDir  = join(__dirname, '..', 'public')
 const outFile = join(outDir, 'posts.json')
 mkdirSync(outDir, { recursive: true })
 writeFileSync(outFile, JSON.stringify(posts, null, 2), 'utf-8')
-console.log(`💾 저장 완료: public/posts.json`)
+console.log(`💾 저장 완료: public/posts.json (${posts.length}개)`)
+console.log('📂 파일 위치:', outFile)

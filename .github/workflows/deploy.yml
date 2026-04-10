@@ -24,8 +24,18 @@ jobs:
         env:
           GITHUB_READ_TOKEN: ${{ secrets.BLOG_READ_TOKEN }}
 
+      - name: Verify posts.json created
+        run: |
+          echo "=== public/ contents ==="
+          ls -la public/
+          echo "=== posts.json head ==="
+          head -5 public/posts.json || echo "posts.json not found!"
+
       - name: Build
         run: npx vite build
+
+      - name: Verify dist/posts.json
+        run: ls -la dist/posts.json || echo "dist/posts.json not found!"
 
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v4
