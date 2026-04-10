@@ -7,3 +7,4 @@ start-dev.sh
 # env files
 .env.local
 .env*.local
+public/posts.json

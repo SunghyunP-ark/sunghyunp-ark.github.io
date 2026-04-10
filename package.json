@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "fetch-posts": "node scripts/fetch-posts.js",
+    "build": "node scripts/fetch-posts.js && vite build",
     "preview": "vite preview"
   },
   "dependencies": {

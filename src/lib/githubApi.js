@@ -5,11 +5,8 @@ const GITHUB_REPO = 'sunghyunp-ark.github.io'
 const BRANCH = 'main'
 const BLOG_DIR = 'blogs'
 
-// Priority: 1) user-set PAT in localStorage  2) build-time read token  3) unauthenticated
-const BUILD_READ_TOKEN = import.meta.env.VITE_GITHUB_READ_TOKEN || ''
-
 function getHeaders() {
-  const token = localStorage.getItem('github_pat') || BUILD_READ_TOKEN
+  const token = localStorage.getItem('github_pat')
   return token ? { Authorization: `token ${token}` } : {}
 }
 

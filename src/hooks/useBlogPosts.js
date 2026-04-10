@@ -49,14 +49,22 @@ export function useBlogPosts() {
       })
       return
     }
-    fetchPromise = fetchBlogFiles('', []).then(posts => {
-      cachedPosts = posts
-      setState({ posts, categoryTree: buildCategoryTree(posts), loading: false, error: null })
-      return posts
-    }).catch(err => {
-      setState(s => ({ ...s, loading: false, error: err.message }))
-      fetchPromise = null
-    })
+    // 1순위: 빌드 시 생성된 정적 파일 (GitHub API 호출 없음)
+    // 2순위: 실시간 GitHub API (개발 환경 또는 정적 파일 없을 때)
+    fetchPromise = fetch('/posts.json')
+      .then(r => {
+        if (!r.ok) throw new Error('no static posts')
+        return r.json()
+      })
+      .catch(() => fetchBlogFiles('', []))
+      .then(posts => {
+        cachedPosts = posts
+        setState({ posts, categoryTree: buildCategoryTree(posts), loading: false, error: null })
+        return posts
+      }).catch(err => {
+        setState(s => ({ ...s, loading: false, error: err.message }))
+        fetchPromise = null
+      })
   }, [])
 
   return state
