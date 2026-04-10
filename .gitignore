@@ -4,3 +4,6 @@ GUIDE.md
 .claude/launch.json
 .claude/settings.local.json
 start-dev.sh
+# env files
+.env.local
+.env*.local
