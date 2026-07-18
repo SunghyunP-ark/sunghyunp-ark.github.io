@@ -3,7 +3,7 @@ title: Learning Dynamics of LLM Finetuning
 date: 2026-07-13
 category: Paper/LLM
 image: static/img/dynamicstn.png
-summary: ""
+summary: "Learning Dynamics of LLM Finetuning"
 ---
 
 Before reading this post, you can think about these questions.
@@ -18,7 +18,6 @@ Before reading this post, you can think about these questions.
 
 📓 **Paper**: Yi Ren, Danica J. Sutherland (2025). _Learning Dynamics of LLM Finetuning_. ICLR 2025 Oral / Outstanding Paper. The paper was selected as one of three outstanding papers among 3,704 accepted ICLR 2025 papers.
 
----
 
 # **I. SHORT SUMMARY**
 
@@ -47,13 +46,11 @@ Using this framework, the paper explains several otherwise counterintuitive beha
 
 The paper therefore presents a unified dynamical interpretation of SFT, DPO, IPO, SPIN, SPPO, SLiC, and several related post-training methods.
 
----
 
 # **II. MATHEMATICAL BACKGROUND**
 
 These concepts are useful for understanding the paper.
 
----
 
 ## **II-1. Gradient Descent as a Dynamical System**
 
@@ -77,7 +74,6 @@ $$\Delta \log \pi_t(y\mid x_o) = \log \pi_{\theta_{t+1}}(y\mid x_o) - \log \pi_{
 
 This quantity measures how training on $(x_u,y_u)$ changes the model's confidence in response $y$ for input $x_o$.
 
----
 
 ## **II-2. First-Order Taylor Approximation**
 
@@ -127,7 +123,6 @@ It is called the **adaptation matrix** in the paper.
 
 The important point is that $\mathcal{A}_t$ depends on the model's current probability distribution. Therefore, the same logit update can produce a different probability change depending on whether the model is uncertain, confident, or already highly concentrated.
 
----
 
 ## **II-4. Empirical Neural Tangent Kernel**
 
@@ -155,8 +150,6 @@ rather than ordinary embedding similarity.
 
 Two prompts or responses may be linguistically different but still have a large kernel interaction if the model uses similar parameters or features to process them.
 
----
-
 ## **II-5. Cross-Entropy Gradient**
 
 For SFT, the token-level cross-entropy loss is
@@ -181,7 +174,6 @@ Because gradient descent moves in the negative-gradient direction, the update:
 
 This is important: even ordinary SFT is not an isolated update to one token. It alters the whole output distribution.
 
----
 
 # **III. A GENERAL FRAMEWORK FOR LEARNING DYNAMICS**
 
@@ -195,7 +187,6 @@ This is the main equation of the paper.
 
 Let us examine the three terms.
 
----
 
 ### **(1) Adaptation term**
 
@@ -209,7 +200,6 @@ Given a particular logit change, how will probability mass be redistributed?
 
 Because probabilities must sum to one, increasing one output generally requires decreasing others.
 
----
 
 ### **(2) Kernel term**
 
@@ -223,7 +213,7 @@ Does the model use overlapping parameters or features for these two examples?
 
 If the kernel interaction is strong, learning one example can substantially change the other.
 
----
+
 
 ### **(3) Residual term**
 
@@ -239,7 +229,7 @@ SFT, DPO, IPO, SPIN, and other methods differ primarily through this residual te
 
 The paper illustrates this first on MNIST: learning an image of the digit 4 directly increases confidence in 4, but may also increase confidence in 9 for images that are represented similarly by the network. This toy example motivates the corresponding interactions among LLM responses.
 
----
+
 
 ## **III-2. Sequence-Level Decomposition**
 
@@ -266,7 +256,7 @@ This is one reason LLM finetuning dynamics are substantially more complicated th
 - every token can interact with every token of another response;
 - these effects accumulate across batches and epochs.
 
----
+
 
 # **IV. LEARNING DYNAMICS OF SFT**
 
@@ -284,7 +274,7 @@ As expected, the most direct effect is to increase the probability of $y_u^+$.
 
 But this is not the only effect.
 
----
+
 
 ## **IV-2. Direct Pull-Up and Indirect Pull-Up**
 
@@ -310,7 +300,7 @@ It can also teach:
 
 This explains why rephrasings or similar responses can initially become more likely.
 
----
+
 
 ## **IV-3. Probability Conservation and Push-Down Pressure**
 
@@ -351,7 +341,6 @@ The experiments show this behavior for:
 
 The precise turning point depends on how strongly each response interacts with the supervised target.
 
----
 
 ## **IV-4. A Possible Explanation for Hallucination Amplification**
 
@@ -377,7 +366,6 @@ The model may then reuse a fact, phrase, or answer pattern learned for question 
 
 The paper does not claim that this completely explains all hallucination. Rather, it proposes a plausible learning-dynamics mechanism for specific forms of hallucination amplification and repetitive generation during finetuning.
 
----
 
 # **V. LEARNING DYNAMICS OF DPO**
 
@@ -409,7 +397,7 @@ When $a$ is close to one, the current policy already separates the chosen and re
 
 When $a$ is small, the current policy has not yet learned the desired preference.
 
----
+
 
 ## **V-2. Positive and Negative Residuals**
 
@@ -431,7 +419,7 @@ The second term pushes down the rejected response.
 
 This looks simple, but the negative update behaves very differently from the positive one.
 
----
+
 
 ## **V-3. The Role of the DPO Margin**
 
@@ -461,7 +449,7 @@ It is also:
 
 Where are the chosen and rejected responses located under the current policy?
 
----
+
 
 # **VI. THE SQUEEZING EFFECT**
 
@@ -495,7 +483,7 @@ The output distribution becomes increasingly sharp or peaked.
 
 The paper calls this the **squeezing effect**.
 
----
+
 
 ## **VI-2. Geometric Intuition**
 
@@ -522,7 +510,7 @@ Consequences may include:
 - collapse toward greedy-decoding outputs;
 - unexpected declines in chosen-response likelihood.
 
----
+
 
 ## **VI-3. Why the Chosen Response Can Also Decrease**
 
@@ -560,7 +548,7 @@ DPO considers this an improvement, even though the chosen response became less l
 
 The squeezing-effect analysis explains how this behavior can emerge dynamically during prolonged off-policy DPO.
 
----
+
 
 ## **VI-4. Why On-Policy DPO Can Help**
 
@@ -588,7 +576,7 @@ The negative response may have become irrelevant to the current model, but the t
 
 This gives one dynamical explanation for why on-policy preference optimization and iterative data collection can outperform fixed offline preference training.
 
----
+
 
 # **VII. EXPERIMENTAL SETUP**
 
@@ -625,7 +613,7 @@ $$\text{which responses rise}, \quad \text{which responses fall}, \quad \text{wh
 
 The qualitative trends appear across different datasets and model sizes, supporting the claim that the proposed decomposition captures a general training mechanism rather than a single-model artifact.
 
----
+
 
 # **VIII. EXPERIMENTAL RESULTS**
 
@@ -648,7 +636,7 @@ and
 
 $$\text{softmax-induced push-down}$$
 
----
+
 
 ## **VIII-2. DPO Dynamics**
 
@@ -672,7 +660,7 @@ A model may achieve a larger chosen–rejected margin while simultaneously becom
 - less likely to produce the designated chosen response;
 - more concentrated on a different dominant output.
 
----
+
 
 # **IX. A SIMPLE METHOD INSPIRED BY THE ANALYSIS**
 
@@ -690,7 +678,7 @@ But the goal is not to make the final model prefer them.
 
 The goal is to prevent DPO from applying an unstable negative update to responses that the model already assigns nearly zero probability.
 
----
+
 
 ## **IX-2. Training-Data Extension**
 
@@ -718,7 +706,7 @@ followed by
 
 $$\text{DPO preferring }y^+\text{ over }y^-$$
 
----
+
 
 ## **IX-3. Why This Can Work**
 
@@ -743,13 +731,11 @@ The best initialization for preference optimization is not necessarily the model
 
 A model may benefit from keeping meaningful probability support over the outputs that preference optimization intends to compare.
 
----
 
 # **X. UNDERSTANDING THE PAPER THROUGH AN INFORMATION-THEORETIC PERSPECTIVE**
 
 The paper itself is primarily based on gradient dynamics and kernel interactions, not on a formal information-theoretic derivation. However, its results admit a useful information-theoretic interpretation.
 
----
 
 ## **X-1. Finetuning as Redistribution of Probability Mass**
 
@@ -775,7 +761,6 @@ Across which other responses does the resulting probability displacement propaga
 
 The kernel term $\mathcal{K}_t$ determines this propagation structure.
 
----
 
 ## **X-2. Entropy and the Squeezing Effect**
 
@@ -803,7 +788,6 @@ From this perspective, preference tuning faces a rate-allocation-like problem:
 
 How much probability mass should be removed from undesirable regions without destroying useful variation elsewhere?
 
----
 
 ## **X-3. Relative Preference Versus Absolute Likelihood**
 
@@ -835,7 +819,6 @@ Thus a preference objective can succeed in relative discrimination while failing
 
 This distinction is central to understanding likelihood displacement.
 
----
 
 ## **X-4. Kernel Interaction as an Information-Transfer Channel**
 
@@ -868,7 +851,6 @@ Thus generalization and interference are not fundamentally separate mechanisms.
 
 They are two outcomes of the same cross-example interaction.
 
----
 
 # **XI. WHY THIS PAPER MATTERS**
 
@@ -890,7 +872,6 @@ That is, it treats the entire training trajectory as the object of analysis.
 
 Two models with similar final loss may have followed very different trajectories and may differ in stability, diversity, and robustness.
 
----
 
 ## **XI-2. It Unifies SFT and Preference Optimization**
 
@@ -918,7 +899,6 @@ This makes it easier to compare new preference algorithms by asking:
 4. Where are those responses under the current policy?
 5. Through which kernel interactions does the signal propagate?
 
----
 
 ## **XI-3. It Gives a Mechanistic Explanation of Off-Policy Problems**
 
@@ -936,7 +916,6 @@ This connects several observations:
 - benefits of on-policy sampling;
 - benefits of constrained or regularized DPO variants.
 
----
 
 ## **XI-4. It Suggests New Data-Centric Research Questions**
 
@@ -969,7 +948,6 @@ This naturally leads to questions such as:
 
 These questions are highly relevant to learning-dynamics-based alignment research.
 
----
 
 # **XII. LIMITATIONS**
 
@@ -985,7 +963,6 @@ The approximation is most accurate when the learning rate and parameter update a
 
 For large updates, higher-order terms may matter.
 
----
 
 ## **XII-2. Relative Stability of the Kernel**
 
@@ -997,7 +974,6 @@ In strongly feature-learning regimes, the kernel itself may evolve substantially
 
 That kernel evolution could be an important research target rather than merely an approximation error.
 
----
 
 ## **XII-3. Kernel Similarity Is Not a Complete Semantic Explanation**
 
@@ -1012,7 +988,6 @@ It does not directly explain:
 
 A fuller mechanistic interpretation would require combining learning dynamics with representation analysis or mechanistic interpretability.
 
----
 
 ## **XII-4. Sequence-Level Complexity**
 
@@ -1022,7 +997,6 @@ The paper analyzes a strategically selected set of probing responses rather than
 
 Therefore, the squeezing effect is supported through theoretically motivated probes and empirical trends, but directly characterizing its full distributional geometry remains difficult.
 
----
 
 ## **XII-5. The Proposed Method Is Deliberately Simple**
 
@@ -1040,7 +1014,7 @@ More principled alternatives may include:
 - kernel-aware pair selection;
 - dynamically stopping updates on exhausted negatives.
 
----
+
 
 # **XIII. MY THOUGHT**
 
