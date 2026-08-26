@@ -91,7 +91,7 @@ export default function HeroSection() {
                 Hello, my name is <strong>Sunghyun Park</strong>, but I go by <strong>Sean</strong> in English.
                 I am currently an M.S. student in the Department of Artificial Intelligence at {' '}
                 <a href="https://www.yonsei.ac.kr/" target="_blank" rel="noopener noreferrer">Yonsei University</a>{' '}
-                , where I am advised by Prof. {' '}<a href="http://ai-isl.yonsei.ac.kr/albert-no.html" target="_blank" rel="noopener noreferrer">Albert No</a>{' '} in the {' '}<a href="https://aisl.yonsei.ac.kr/" target="_blank" rel="noopener noreferrer">AI-ISL</a>{' '}lab.
+                , where I am advised by Prof. {' '}<a href="http://ai-isl.yonsei.ac.kr/albert-no.html" target="_blank" rel="noopener noreferrer">Albert No</a>{' '} in the {' '}<a href="https://ai-isl.yonsei.ac.kr" target="_blank" rel="noopener noreferrer">AI-ISL</a>{' '}lab.
                 I received my B.S. in Biochemistry and Computer Science from{' '}
                 <a href="https://www.yonsei.ac.kr/" target="_blank" rel="noopener noreferrer">Yonsei University</a>{' '}
                 in Seoul, South Korea.
