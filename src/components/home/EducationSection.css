@@ -1,3 +1,7 @@
+#education .container + .container {
+  margin-top: 20px;
+}
+
 .edu-card {
   display: flex;
   gap: 32px;
