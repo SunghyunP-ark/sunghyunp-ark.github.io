@@ -27,7 +27,6 @@ export default function EducationSection() {
       </div>
       
       <div className="container">
-        <SectionTitle>Education</SectionTitle>
         <motion.div
           className="edu-card"
           initial={{ opacity: 0, y: 24 }}

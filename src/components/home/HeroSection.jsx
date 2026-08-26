@@ -69,7 +69,7 @@ export default function HeroSection() {
               <div className="hero-photo-glow" />
             </div>
             <div className="hero-name-card">
-              <span className="hero-subtitle">Yonsei Biochem &amp; CS</span>
+              <span className="hero-subtitle">Yonsei AI</span>
               <h1 className="hero-name">
                 {displayedName}
                 <span className="hero-cursor" aria-hidden="true">▌</span>
